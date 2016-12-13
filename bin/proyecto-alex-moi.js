@@ -12,15 +12,15 @@ var prompt = require('prompt');
 //Variables para el package.json
 var author, email;
 var name        = argv.n || '';
-var repo_url    = argv.u || '';
-var dir  = argv.c;
+var autor       = argv.a || '';
 var help        = argv.h;
-
+var version     = argv.v;
 
 //Despliegue en iaas
-var deploy      = argv.d;
-var ip_iaas     = argv.iaas_ip    || '';
-var path_iaas   = argv.iaas_path  || '';
+var dir         = argv.c;
+var repo_url    = argv.u;
+var ip_iaas     = argv.ip;
+var path_iaas   = argv.path;
 
 
 function crear_estructura(dir){
@@ -173,19 +173,44 @@ function desplegar(nombre_dir, paquete){
 */
 
 if(help){
-  console.log("\nAyuda GitBook-Start-Alex-Moi-Nitesh:"
+  console.log("\nAyuda proyecto-sytw-alex-moi:"
               +"\n\nLos argumentos aceptados son:"
               +"\n -a: Especificar el autor del gitbook"
               +"\n -n: Especificar el nombre del gitbook"
               +"\n -c: Especificar el nombre del directorio"
               +"\n -u: Especificar la url del repositorio git"
-              +"\n -h: Help (Ayuda)"
-              +"\n -d: Deploy en IaaS(iaas.ull.es)"
-              +"\n --iaas_ip: Especificar la IP del IaaS"
-              +"\n --iaas_path: Especificar la PATH de IaaS\n");
+              +"\n -h: Ayuda"
+              +"\n -v: version del paquete"
+              +"\n --ip: Especificar la IP del IaaS"
+              +"\n --path: Especificar la PATH de IaaS\n");
 
-}/*
+}
+
 else{
+  if(version){
+    var configuracion = require('../package.json');
+    var ver = configuracion.version;
+    console.log("Version: "+ ver);
+  }
+  else{
+    
+    if(!dir && !repo_url  && !ip_iaas && !path_iaas)
+    return console.log("Es obligatorio que especifique las opciones -c -u --ip y --path"
+                       +"\n Ejemplo: proyecto-sytw-alex-moi -c pepito -u https://github.com/usuario/pepito.git --ip 10.6.128.1 --path /home/usuario"
+    )
+    
+  } 
+  
+  
+  
+  
+  
+  
+}
+
+/*
+else{
+  
   
   if(!name && !repo_url && !directorio && !ip_iaas && !path_iaas && !deploy && !help)
     return console.log("Debe especificar -c para generar la estructura o -d para realizar el despliegue si ya esta creada la estructura")

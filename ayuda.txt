@@ -13,6 +13,7 @@ Conceptos:
 
 
 Funcionalidades:
+    
     atutencacion google
     autenticacion facebook
     cambiar pass, nombre y otras cosas
