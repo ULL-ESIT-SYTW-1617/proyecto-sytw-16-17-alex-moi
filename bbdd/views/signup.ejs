@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--Importa los iconos-->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        
+        <!--Css de materialize-->
+        <link type="text/css" rel="stylesheet" href="assets/materialize/css/materialize.min.css"  media="screen,projection"/>
+        <link type="text/css" rel="stylesheet" href="assets/materialize/css/index/index.css">
+        
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        
+        <!-- Google fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Coda" rel="stylesheet">
+        
+        <link rel="icon" type="image/png" href="./assets/images/gitbook.png" />
+    </head>
+    <body >
+        
+        <main>
+            <nav>
+                <div class="nav-wrapper">
+                    <a href="#!" class="brand-logo">GitBook</a>
+                    <ul class="right hide-on-med-and-down">
+                        <li><a href="#"><i class="material-icons left">input</i>Inicio de Sesión</a></li>
+                    </ul>
+                </div>
+            </nav>
+      
+
+            <div class="col s12 m6 l6">
+                <div class="row">
+                    <div class="col m7 offset-m3">
+                        <div class="row">
+                            <div class="col s12 m12">
+                              <h2 class="white-text">Registro</h2>
+                            </div>
+                        </div>
+                     
+            
+                        <div class="row">
+                            <form class="col s12 " action="/signup" method="post" onsubmit="return validacion_signup()">
+                                <div class="row">
+                                    <div class="input-field col s12 m4">
+                                        <input class="form-control white-text" id="nombre1" type="text" class="validate" name="nombre">
+                                        <label class ="white-text" for="nombre1 ">Nombre y Apellidos</label>
+                                    </div>
+                                    <div class="input-field col s12 m4">
+                                        <input class="form-control white-text" id="username1" type="text" class="validate" name="username">
+                                        <label  class ="white-text" for="username1">Usuario</label>
+                                    </div>
+                                </div>
+                                 
+                                <div class="row">
+                                    <div class="input-field col s12 m7">
+                                        <input class="form-control white-text" id="email1" type="email" class="validate" name="email">
+                                        <label class ="white-text" for="email">Email</label>
+                                    </div>
+                                    <div class="input-field col s12 m1">
+                                        <input class="form-control white-text" id="edad1" type="number" min="18" class="validate" name="edad">
+                                        <label class ="white-text" for="edad">Edad</label>
+                                    </div>
+                                    
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="input-field col s12 m4">
+                                        <input id="password1" class="form-control white-text" type="password" class="validate" name="password">
+                                        <label class ="white-text" for="password">Contraseña</label>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col m3 s12">
+                                        <button class="btn waves-effect waves-light black-text #00c853 green accent-4" type="submit" >Aceptar</div>
+                                    
+                                </div>
+                                <div class="row">
+                                    <p>¿Ya tiene una cuenta? <a href="/login">Accede</a></p>
+                                    <p>O ir a <a href="/">Inicio</a>.</p>
+                                </div>
+                            </form>
+                        </div>
+                    </div>              
+                </div>
+            </div>
+      
+        </main> 
+        
+    
+        
+        <footer class="page-footer ">
+          <div class="container">
+            <div class="row">
+              <div class="col l6 m6 s12">
+                <h5 class="">GitBook desarrollado con</h5>
+                <p class="">Paquete npm gitbook-start-alex-moi-nitesh</p>
+              </div>
+              <div class="col l4 offset-l2 m6 s12">
+                <h5 class="">Creadores del paquete</h5>
+                <ul>
+                  <li><a class="nombres" href="#!">Moisés Yanes Carballo</a></li>
+                  <li><a class="nombres" href="#!">Alexander Cole Mora</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </footer>
+    
+        <!--Import jQuery before materialize.js-->
+        <script src="http://code.jquery.com/jquery.min.js"></script>
+        <script type="text/javascript" scr="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="assets/materialize/js/materialize.min.js"></script>
+    </body>
+</html>

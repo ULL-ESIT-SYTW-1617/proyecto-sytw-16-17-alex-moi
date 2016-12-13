@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--Importa los iconos-->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        
+        <!--Css de materialize-->
+        <link type="text/css" rel="stylesheet" href="assets/materialize/css/materialize.min.css"  media="screen,projection"/>
+        <link type="text/css" rel="stylesheet" href="assets/materialize/css/index/index.css">
+        
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        
+        <!-- Google fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Coda" rel="stylesheet">
+        
+        <link rel="icon" type="image/png" href="./assets/images/gitbook.png" />
+    </head>
+    <body >
+     
+        <main>
+            <nav>
+                <div class="nav-wrapper">
+                    <a href="#!" class="brand-logo">GitBook</a>
+                    <ul class="right hide-on-med-and-down">
+                        <li><a href="#"><i class="material-icons left">input</i>Inicio de Sesión</a></li>
+                    </ul>
+                </div>
+            </nav>
+            
+            <div class="contenedor col s12 m6 l6">
+                <h4> Cambio de contraseña</h4> 
+                <div class="row">
+                    <form class="col s12" action="/modificacion/password" method="get">
+                      <div class="row">
+                        <div class="input-field col s6">
+                          <i class="material-icons prefix">account_circle</i>
+                          <input class="form-control" id="email1" type="email" class="validate" name="email">
+                          <label for="email">Email</label>
+                        </div>
+                        <div class="input-field col s6">
+                          <i class="material-icons prefix">https</i>
+                          <input id="icon_telephone" type="password" class="validate" name="pass">
+                          <label for="icon_telephone">Contraseña</label>
+                        </div>
+                      </div>
+                      <div clas="row" id="button">
+                          <input class="btn waves-effect waves-light #f44336 red"  type="submit" name="action" href= "" value="Cambiar Contraseña">
+                            <i class="material-icons right"></i>
+                          </input>
+                      </div>
+                    </form>
+                  </div>
+        
+                
+            </div>
+         
+        </main>
+
+
+        <footer class="page-footer ">
+          <div class="container">
+            <div class="row">
+              <div class="col l6 m6 s12">
+                <h5 class="">GitBook desarrollado con</h5>
+                <p class="">Paquete npm gitbook-start-alex-moi-nitesh</p>
+              </div>
+              <div class="col l4 offset-l2 m6 s12">
+                <h5 class="">Creadores del paquete</h5>
+                <ul>
+                  <li><a class="nombres" href="#!">Moisés Yanes Carballo</a></li>
+                  <li><a class="nombres" href="#!">Alexander Cole Mora</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </footer>
+    
+        <!--Import jQuery before materialize.js-->
+        <script src="http://code.jquery.com/jquery.min.js"></script>
+        <script type="text/javascript" scr="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="assets/materialize/js/materialize.min.js"></script>
+    </body>
+</html>

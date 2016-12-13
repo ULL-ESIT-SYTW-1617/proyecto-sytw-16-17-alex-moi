@@ -1,0 +1,37 @@
+{
+  "name": "proyecto-sytw-alex-moi",
+  "version": "0.0.0",
+  "description": "Module to build a book on GitBook",
+  "main": "bin/proyecto-alex-moi.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ULL-ESIT-SYTW-1617/proyecto-sytw-16-17-alex-moi.git",
+    "wiki": "https://github.com/ULL-ESIT-SYTW-1617/proyecto-sytw-16-17-alex-moi.wiki.git"
+  },
+  "keywords": [
+    "gitbook",
+    "npm package"
+  ],
+  "author": "Moises Yanes Carballo <alu0100782851@ull.edu.es> (http://alu0100782851.github.io/)",
+  "contributors": [
+    {
+      "name": "Alexander Cole Mora",
+      "email": "alu0100767421@ull.edu.es",
+      "url": "http://alu0100767421.github.io/"
+    }
+  ],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ULL-ESIT-SYTW-1617/proyecto-sytw-16-17-alex-moi/issues"
+  },
+  "bin": {
+    "proyecto-alex-moi": "./bin/proyecto-alex-moi.js"
+  },
+  "homepage": "https://github.com/ULL-ESIT-SYTW-1617/proyecto-sytw-16-17-alex-moi#readme",
+  "dependencies": {
+  }
+}
