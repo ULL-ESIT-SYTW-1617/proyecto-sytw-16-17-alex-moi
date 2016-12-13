@@ -194,8 +194,8 @@ else{
   }
   else{
     
-    if(!dir && !repo_url  && !ip_iaas && !path_iaas)
-    return console.log("Es obligatorio que especifique las opciones -c -u --ip y --path"
+    if(dir && !repo_url  && !ip_iaas && !path_iaas)
+    return console.log("\n\nEs obligatorio que especifique las opciones -c -u --ip y --path"
                        +"\n Ejemplo: proyecto-sytw-alex-moi -c pepito -u https://github.com/usuario/pepito.git --ip 10.6.128.1 --path /home/usuario"
     )
     
