@@ -35,4 +35,6 @@ gulp.task('wikideploy', function() {
 
 //añadir tarea para añadir ip y path del iaas al json
 
-//añadir tarea ...
+//añadir tarea para despliegue en heroku
+
+

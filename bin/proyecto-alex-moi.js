@@ -23,9 +23,11 @@ var ip_iaas     = argv.ip;
 var path_iaas   = argv.path;
 
 
-function crear_estructura(dir){
-      console.log("\n============ CREANDO ESTRUCTURA ============")
+function crear_estructura(dir, serv){
+    console.log("\n============ CREANDO ESTRUCTURA ============")
       
+      
+    //COPIA ARCHIVOS BASE
       //creamos el directorio raiz
       fs.createDir(path.join(process.cwd(), dir), function(err){
         if(err)
@@ -68,18 +70,31 @@ function crear_estructura(dir){
         console.log(err);
       });
       
-      /*//copiamos server.js
-      fs.copyFile(path.join(__dirname,'..','template','server.js'),path.join(process.cwd(), dir , 'server.js'),function(err){
-        if(err)
-        console.log(err);
-      }); */
-      
      //copiamos .gitignore
       fs.copyFileSync(path.join(__dirname,'..','template','.npmignore'), path.join(process.cwd(), dir , '.gitignore'),function(err){
         if(err)
           console.log(err);
       });
+     
+    
+    if( serv == 1 )      //COPIA FICHEROS DESPLIEGUE IAAS 
+    {
       
+      fs.copyDir(path.join(__dirname, '..', 'iaas'), path.join(process.cwd(), dir , 'iaas'), function (err) {
+      	if (err)
+          console.error(err)
+    	});
+
+    } 
+    
+    if( serv == 2 )       //COPIA FICHEROS DESPLIEGUE HEROKU
+    {  
+      
+      fs.copyDir(path.join(__dirname, '..', 'heroku'), path.join(process.cwd(), dir , 'heroku'), function (err) {
+      	if (err)
+          console.error(err)
+    	});
+    	
       //copiamos .env
       fs.copyFileSync(path.join(__dirname,'..','template','.env'), path.join(process.cwd(), dir , '.env'),function(err){
         if(err)
@@ -91,20 +106,9 @@ function crear_estructura(dir){
         if(err)
           console.log(err);
       });
+    } 
       
-      
-      /* NUEVAS LINEAS INTRODUCIDAS AQUI */
-    	//COPIANDO directorio BBDD
-      fs.copyDir(path.join(__dirname, '..', 'bbdd'), path.join(process.cwd(), dir , 'bbdd'), function (err) {
-      	if (err)
-          console.error(err)
-    	});
-      
-    	//COPIANDO directorio IAAS
-      fs.copyDir(path.join(__dirname, '..', 'iaas'), path.join(process.cwd(), dir , 'iaas'), function (err) {
-      	if (err)
-          console.error(err)
-    	});
+
       
       
       //Coger usuario y email de git
@@ -130,48 +134,6 @@ function crear_estructura(dir){
       console.log("Estructura de directorios creada!")
 }
 
-/*
-function desplegar(nombre_dir, paquete){
-      
-      if(ip_iaas && path_iaas){
-      
-        var paque = require(path.resolve(process.cwd(),"package.json"));
-        paque.iaas.IP=ip_iaas;
-        paque.iaas.PATH=path_iaas;
-        
-         
-        fs.writeFile(path.resolve(process.cwd(),'package.json'), JSON.stringify(paque, null, ' '), function (err) {
-          if(err)
-            console.error(err)
-        })
-      }
-
-      
-      child.exec('npm install -g gitbook-start-'+paquete+'-alex-moi', function(error, stdout, stderr){
-        if(error)
-          console.log(error)
-        
-        console.log(stderr);
-        console.log(stdout);
-      })
-      
-      child.exec('npm install --save-dev gitbook-start-'+paquete+'-alex-moi', function(error, stdout, stderr){
-        if(error)
-          console.log(error)
-        
-        console.log(stderr);
-        console.log(stdout);
-      
-        //añadir las tareas al gulp
-        var servicio = require(path.join(process.cwd(),'node_modules','gitbook-start-'+paquete+'-alex-moi','gitbook-start-'+paquete+''));
-        servicio.initialize(nombre_dir);
-      })
-  
-
-      
-}
-*/
-
 if(help){
   console.log("\nAyuda proyecto-sytw-alex-moi:"
               +"\n\nLos argumentos aceptados son:"
@@ -195,18 +157,30 @@ else{
   else{
     
     if(dir && !repo_url  && !ip_iaas && !path_iaas)
-    return console.log("\n\nEs obligatorio que especifique las opciones -c -u --ip y --path"
-                       +"\n Ejemplo: proyecto-sytw-alex-moi -c pepito -u https://github.com/usuario/pepito.git --ip 10.6.128.1 --path /home/usuario"
-    )
+      return console.log("\n\nEs obligatorio que especifique las opciones -c -u --ip y --path"
+                         +"\n Ejemplo: proyecto-sytw-alex-moi -c pepito -u https://github.com/usuario/pepito.git --ip 10.6.128.1 --path /home/usuario"
+      )
     
+    var serv;
+    prompt.start();
+
+    prompt.get([
+      { name: 'pregunta', required: true, description: "¿Desea realizar un despliegue en iaas o en heroku? Debe escoger una de las dos opciones.\n1 = IaaS  2 = Heroku"}
+      ], function (err, result) {
+          if(err)
+              return err;
+          if( result.pregunta == 1 || result.pregunta == 2)
+            serv = result.pregunta;
+          else
+            return console.log("El valor introducido es incorrecto pruebe a realizar la ejecucion de nuevo")
+      });
+    
+    crear_estructura(dir, serv)
   } 
   
-  
-  
-  
-  
-  
+
 }
+
 
 /*
 else{
