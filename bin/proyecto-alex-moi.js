@@ -167,16 +167,20 @@ else{
       ], function (err, result) {
           if(err)
               return err;
-          if( result.pregunta == 1 || result.pregunta == 2)
+          if( result.pregunta == 1 || result.pregunta == 2){
+            if(serv == 1 && (!ip_iaas || !path_iaas) )
+              return console.log("Para desplegar en el iaas debe especificar la ip y el path");
             serv = result.pregunta;
+            crear_estructura(dir, serv);
+          }
+            
           else
             return console.log("El valor introducido es incorrecto pruebe a realizar la ejecucion de nuevo")
       });
     
-    if(serv == 1 && (!ip_iaas || !path_iaas) )
-      return console.log("Para desplegar en el iaas debe especificar la ip y el path");
     
-    crear_estructura(dir, serv)
+    
+    
   } 
   
 
