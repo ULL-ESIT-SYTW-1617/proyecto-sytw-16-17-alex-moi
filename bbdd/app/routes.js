@@ -124,7 +124,7 @@ const User  = require('./models/user');
 	app.get('/modificacion/password', function(req, res, next) {
 		
 
-		console.log("email: " +req.query.email)
+		console.log("email: " +req.query.email);
 		
 		User.find({}, function(err, user) {
 
@@ -134,10 +134,9 @@ const User  = require('./models/user');
 			if(user)
 				for(var i=0;i<user.length;i++){
 					
-					console.log("Email: "+user[i].local.email)
+					console.log("Email: "+user[i].local.email);
 					
 					if(user[i].local.email == req.query.email )
-						var usuario = user[i];
 						
 						var bcrypt   = require('bcrypt-nodejs');
 						user[i].local.password = bcrypt.hashSync(req.query.pass, bcrypt.genSaltSync(8), null);
@@ -151,19 +150,7 @@ const User  = require('./models/user');
 			                
 			            });
 				}
-				res.redirect('/home')
-		/*	var bcrypt   = require('bcrypt-nodejs');
-			user.local.password = bcrypt.hashSync(req.query.pass, bcrypt.genSaltSync(8), null);
-            //user.local.password = req.query.pass;  
-
-            // save user
-            user.save(function(err) {
-                if (err)
-                    return(err);
-
-                res.redirect('/home')
-            });*/
-
+				res.redirect('/home');
         });
 
 	});

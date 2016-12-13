@@ -27,3 +27,12 @@ gulp.task('wikibuild', function() {
 gulp.task('wikideploy', function() {
    return gulp.src('').pipe(shell(['./scripts/deploy-wiki'])); 
 });
+
+
+//añadir tarea para arrancar o parar el servidor
+
+//añadir tareas de deploy en iaas
+
+//añadir tarea para añadir ip y path del iaas al json
+
+//añadir tarea ...

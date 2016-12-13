@@ -13,7 +13,7 @@ var prompt = require('prompt');
 var author, email;
 var name        = argv.n || '';
 var repo_url    = argv.u || '';
-var directorio  = argv.c;
+var dir  = argv.c;
 var help        = argv.h;
 
 
@@ -24,7 +24,7 @@ var path_iaas   = argv.iaas_path  || '';
 
 
 function crear_estructura(dir){
-      console.log("\n============ CREANDO ESTRUCTURA GITBOOK ============")
+      console.log("\n============ CREANDO ESTRUCTURA ============")
       
       //creamos el directorio raiz
       fs.createDir(path.join(process.cwd(), dir), function(err){
@@ -68,11 +68,11 @@ function crear_estructura(dir){
         console.log(err);
       });
       
-      //copiamos server.js
+      /*//copiamos server.js
       fs.copyFile(path.join(__dirname,'..','template','server.js'),path.join(process.cwd(), dir , 'server.js'),function(err){
         if(err)
         console.log(err);
-      }); 
+      }); */
       
      //copiamos .gitignore
       fs.copyFileSync(path.join(__dirname,'..','template','.npmignore'), path.join(process.cwd(), dir , '.gitignore'),function(err){
@@ -93,6 +93,20 @@ function crear_estructura(dir){
       });
       
       
+      /* NUEVAS LINEAS INTRODUCIDAS AQUI */
+    	//COPIANDO directorio BBDD
+      fs.copyDir(path.join(__dirname, '..', 'bbdd'), path.join(process.cwd(), dir , 'bbdd'), function (err) {
+      	if (err)
+          console.error(err)
+    	});
+      
+    	//COPIANDO directorio IAAS
+      fs.copyDir(path.join(__dirname, '..', 'iaas'), path.join(process.cwd(), dir , 'iaas'), function (err) {
+      	if (err)
+          console.error(err)
+    	});
+      
+      
       //Coger usuario y email de git
       gitconfig(function(err,config){
           if(err) console.log(err);
@@ -102,13 +116,13 @@ function crear_estructura(dir){
 
           
           //renderizando package.json
-          ejs.renderFile(path.join(__dirname,'..','template','package.ejs'),{ autor: author, autore: email, nombre: name, repourl: repo_url, ip_iaas_ull: ip_iaas , path_iaas_ull: path_iaas}, 
+          ejs.renderFile(path.join(__dirname,'..','template','package.ejs'),{ autor: author, autor: email, nombre: name, repourl: repo_url, ip_iaas_ull: ip_iaas , path_iaas_ull: path_iaas}, 
             function(err,data){
                 if(err) {
                     console.error(err);
                 }
                 if(data) {
-                    fs.writeFile(path.join(process.cwd(),nombre_dir,'package.json'), data);
+                    fs.writeFile(path.join(process.cwd(),dir,'package.json'), data);
                 }
             });
       });
@@ -116,7 +130,7 @@ function crear_estructura(dir){
       console.log("Estructura de directorios creada!")
 }
 
-
+/*
 function desplegar(nombre_dir, paquete){
       
       if(ip_iaas && path_iaas){
@@ -156,7 +170,7 @@ function desplegar(nombre_dir, paquete){
 
       
 }
-
+*/
 
 if(help){
   console.log("\nAyuda GitBook-Start-Alex-Moi-Nitesh:"
@@ -170,7 +184,7 @@ if(help){
               +"\n --iaas_ip: Especificar la IP del IaaS"
               +"\n --iaas_path: Especificar la PATH de IaaS\n");
 
-}
+}/*
 else{
   
   if(!name && !repo_url && !directorio && !ip_iaas && !path_iaas && !deploy && !help)
@@ -298,4 +312,4 @@ else{
     else
       return console.log("Se debe especificar el deploy -d sin la opcion -c")
   }
-}
+}*/

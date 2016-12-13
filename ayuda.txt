@@ -1,0 +1,19 @@
+Explicacion estructura:
+    en template esta el contenido del gitbook
+        - quitar server.js de template(en principio no hace falta)
+    
+    en bbdd todo el codigo para la base de datos 
+    
+    en iaas el fichero que realiza el despliegue en iaas y otras cosas si fueran necesarias
+
+
+Conceptos:
+    El ejecutable del iaas coge las ip y path del json si no estan se indica el error y se pide al usuario q las ponga
+    se podria dejar ese ejecutable ahi asi tal cual con esa carpeta
+
+
+Funcionalidades:
+    atutencacion google
+    autenticacion facebook
+    cambiar pass, nombre y otras cosas
+    solicitar dos veces la pass en registro
