@@ -1,0 +1,5 @@
+cambiar el fichero passport para la parte de google y que guarde y añada al fichero json
+
+revisar las vistas y los enlaces a las mismas etc etc
+
+revisar routes
