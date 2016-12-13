@@ -109,8 +109,6 @@ function crear_estructura(dir, serv){
     } 
       
 
-      
-      
       //Coger usuario y email de git
       gitconfig(function(err,config){
           if(err) console.log(err);
@@ -120,7 +118,7 @@ function crear_estructura(dir, serv){
 
           
           //renderizando package.json
-          ejs.renderFile(path.join(__dirname,'..','template','package.ejs'),{ autor: author, autor: email, nombre: name, repourl: repo_url, ip_iaas_ull: ip_iaas , path_iaas_ull: path_iaas}, 
+          ejs.renderFile(path.join(__dirname,'..','template','package.ejs'),{ autor: author, autore: email, nombre: name, repourl: repo_url, ip_iaas_ull: ip_iaas , path_iaas_ull: path_iaas}, 
             function(err,data){
                 if(err) {
                     console.error(err);
@@ -156,9 +154,9 @@ else{
   }
   else{
     
-    if(dir && !repo_url  && !ip_iaas && !path_iaas)
-      return console.log("\n\nEs obligatorio que especifique las opciones -c -u --ip y --path"
-                         +"\n Ejemplo: proyecto-sytw-alex-moi -c pepito -u https://github.com/usuario/pepito.git --ip 10.6.128.1 --path /home/usuario"
+    if(dir && !repo_url)
+      return console.log("\n\nEs obligatorio que especifique las opciones -c y -u"
+                         +"\n Ejemplo: proyecto-sytw-alex-moi -c pepito -u https://github.com/usuario/pepito.git"
       )
     
     var serv;
@@ -174,6 +172,9 @@ else{
           else
             return console.log("El valor introducido es incorrecto pruebe a realizar la ejecucion de nuevo")
       });
+    
+    if(serv == 1 && (!ip_iaas || !path_iaas) )
+      return console.log("Para desplegar en el iaas debe especificar la ip y el path");
     
     crear_estructura(dir, serv)
   } 
