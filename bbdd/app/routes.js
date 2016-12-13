@@ -77,6 +77,18 @@ const User  = require('./models/user');
 			failureRedirect : '/signup', // redirect back to the signup page if there is an error
 			failureFlash : true // allow flash messages
 		}));
+		
+		
+		// google ---------------------------------
+		// send to google to do the authentication
+		app.get('/auth/google', passport.authenticate('google', { scope : ['profile', 'email'] }));
+
+		// the callback after google has authenticated the user
+		app.get('/auth/google/callback',
+			passport.authenticate('google', {
+				successRedirect : '/home',
+				failureRedirect : '/fail'
+			}));
 
 
 // =============================================================================
@@ -94,6 +106,19 @@ const User  = require('./models/user');
 		}));
 
 
+	// google ---------------------------------
+
+		// send to google to do the authentication
+		app.get('/connect/google', passport.authorize('google', { scope : ['profile', 'email'] }));
+
+		// the callback after google has authorized the user
+		app.get('/connect/google/callback',
+			passport.authorize('google', {
+				successRedirect : '/profile',
+				failureRedirect : '/fail'
+		}));
+
+
 // =============================================================================
 // UNLINK ACCOUNTS =============================================================
 // =============================================================================
@@ -108,6 +133,16 @@ const User  = require('./models/user');
 		user.local.password = undefined;
 		user.save(function(err) {
 			res.redirect('/home');
+		});
+	});
+	
+	
+	// google ---------------------------------
+	app.get('/unlink/google', function(req, res) {
+		var user          = req.user;
+		user.google.token = undefined;
+		user.save(function(err) {
+			res.redirect('/profile');
 		});
 	});
 

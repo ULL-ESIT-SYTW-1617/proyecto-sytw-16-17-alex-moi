@@ -28,7 +28,15 @@
             </nav>
             
             <div class="contenedor col s12 m6 l6">
-                 <h4> Hola <%= user.local.name %> </h4>
+                <h4> Hola 
+                 	<% if (user.local.email) { %>
+					    <%= user.local.name %>
+				    <% } %>
+				    <% if (user.google.token) { %>
+					    <%= user.google.name %>
+				    <% } %>
+				</h4>
+				    
                 <p>¿Qué quieres hacer?</p>
                 <p>Recuerda que puedes acceder al book, cambiar tu contraseña, o cerrar la sesión</p>
                 
