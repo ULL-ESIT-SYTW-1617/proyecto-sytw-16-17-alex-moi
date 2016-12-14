@@ -1,7 +1,8 @@
+var LocalStrategy    = require('passport-local').Strategy;
 var GoogleStrategy   = require('passport-google-oauth').OAuth2Strategy;
 
-// load up the user model
-var User       = require('../app/models/user');
+var bcrypt = require('bcrypt-nodejs');
+var Model       = require('../app/models/models.js');
 
 // load the auth variables
 var configAuth = require('./auth'); // use this one for testing
@@ -26,6 +27,38 @@ module.exports = function(passport) {
 
 
     // =========================================================================
+    // LOCALLY =================================================================
+    // =========================================================================
+    passport.use(new LocalStrategy(
+        function(email, password, cb) {
+            Model.User.find({where: {
+                email: email
+            }})
+            .then((user) => {
+                if(user) {
+                    if(bcrypt.compareSync(password, user.password))
+                    {
+                      return cb(null,user);
+                    }
+                    else
+                    {
+                      console.log("Oops! Wrong password.");
+                      return cb("Oops! Wrong password.",false);
+                    }
+                }
+                else
+                {
+                  console.log("No user found.");
+                  return cb("No user found.",false);
+                }
+            });
+        }
+    ));
+
+
+
+    //              REVISAR
+    // =========================================================================
     // GOOGLE ==================================================================
     // =========================================================================
     passport.use(new GoogleStrategy({
@@ -44,7 +77,9 @@ module.exports = function(passport) {
             // check if the user is already logged in
             if (!req.user) {
 
-                User.findOne({ 'google.id' : profile.id }, function(err, user) {
+                Model.User.findOne({where: {
+                    'google.id' : profile.id
+                }}, function(err, user) {
                     if (err)
                         return done(err);
 

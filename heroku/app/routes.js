@@ -2,25 +2,15 @@ module.exports = function(app, passport) {
 
 var express  = require("express");
 var path          = require('path');
-var Dropbox = require('dropbox');
 var bcrypt = require("bcrypt-nodejs")
-var Dropbox2 = require("node-dropbox")
-var config = require(path.resolve(process.cwd(),".datos_dropbox.json"));
-var api = Dropbox2.api(config.token_dropbox);
+var models = require('./models/models.js');
+
 
 // normal routes ===============================================================
 
 	// show the home page (will also have our login links)
 	app.get('/', function(req, res) {
-		res.render('index1.ejs');
-	});
-
-
-	// PROFILE SECTION =========================
-	app.get('/home', isLoggedIn, function(req, res) {
-		res.render('home', {
-			user : req.user
-		});
+		res.render('index');
 	});
 
 	// LOGOUT ==============================
@@ -52,21 +42,82 @@ var api = Dropbox2.api(config.token_dropbox);
 // AUTHENTICATE (FIRST LOGIN) ==================================================
 // =============================================================================
 
-		//dropbox file ---------------------------
-		app.get('/login',  (req, res) => {
-			if (req.isAuthenticated()) return res.redirect('/error')
-			res.render('index')
-		})
+	//locally
+		// LOGIN =================================
+		app.get('/login', function(req, res) {
+			res.render('login.ejs', { message: req.flash('loginMessage') });
+		});
 		
 		
-		app.post('/login', 
-			passport.authenticate('local', { failureRedirect: '/error' }),
-			function(req, res) {
-				res.redirect('/home');
+		app.post('/login',function(req, res)
+		{
+			// Comprobar si el usuario ya existe!
+			console.log(req.body.email)
+			models.User.find({where: {email: req.body.email}})
+			.then((usuario) =>
+			{
+
+				var pass = req.body.password;
+				var hash = usuario.password;
+				var iguales = bcrypt.compareSync(pass, hash);
+				console.log("hash: "+hash);
+				console.log("pass: "+pass);
+				console.log("iguales: "+ iguales);
+				
+				if (usuario && iguales)
+				    res.render('home',{user: usuario});
+				else 
+				  res.render('login', { message: req.flash('loginMessage') });
+			});
 		});
 
 
-		// google ---------------------------------
+		// SIGNUP =================================
+		// show the signup form
+		app.get('/signup', function(req, res) {
+			res.render('signup.ejs', { message: req.flash('loginMessage') });
+		});
+
+		// signup user
+		app.get('/signuppost',  function(req, res)
+		{
+			// Comprobar si el usuario ya existe!
+			console.log(req.query.email)
+			models.User.find({where: {email: req.query.email}})
+			.then((user) =>
+			{
+				if (user) 
+				    return (user);
+				else 
+				  return (null);
+			});
+			
+			// Si no existe registrarlo!
+			models.User.create(
+			{
+				name:		req.query.nombre,
+			    username:	req.query.username,
+			    email:		req.query.email,
+			    password:	req.query.password,
+			    edad:		req.query.edad
+			    
+			}).then((user)=> {
+				console.log(user)
+				res.render('home',{user: user});
+			})
+			.catch((err)=>
+			    {
+			      if(err)
+					{
+					console.log("Err:" + err);
+					err = "No se ha creado el usuario: "+ err ;
+					res.redirect('/error');
+					}
+			});
+		});
+
+
+	// google ---------------------------------
 		// send to google to do the authentication
 		app.get('/auth/google', passport.authenticate('google', { scope : ['profile', 'email'] }));
 
@@ -81,6 +132,18 @@ var api = Dropbox2.api(config.token_dropbox);
 // =============================================================================
 // AUTHORIZE (ALREADY LOGGED IN / CONNECTING OTHER SOCIAL ACCOUNT) =============
 // =============================================================================
+	
+	// locally --------------------------------
+		app.get('/connect/local', function(req, res) {
+			res.render('connect-local.ejs', { message: req.flash('loginMessage') });
+		});
+		app.post('/connect/local', passport.authenticate('local-signup', {
+			successRedirect : '/home', // redirect to the secure profile section
+			failureRedirect : '/connect/local', // redirect back to the signup page if there is an error
+			failureFlash : true // allow flash messages
+		}));
+
+
 
 	// google ---------------------------------
 
@@ -102,6 +165,15 @@ var api = Dropbox2.api(config.token_dropbox);
 // for local account, remove email and password
 // user account will stay active in case they want to reconnect in the future
 
+	// local -----------------------------------
+	/*app.get('/unlink/local', function(req, res) {
+		var user            = req.user;
+		user.local.email    = undefined;
+		user.local.password = undefined;
+		user.save(function(err) {
+			res.redirect('/home');
+		});
+	});*/
 	
 	// google ---------------------------------
 	app.get('/unlink/google', function(req, res) {
@@ -123,37 +195,6 @@ var api = Dropbox2.api(config.token_dropbox);
 	})
 	
 	app.get('/modificacion/password', function(req,res){
-	  
-	  var existe= false;
-	  var j;
-	  
-	  var user = req.query.username;
-	  var pass = req.query.password;
-	  var contenido;
-	  
-	  var hash = bcrypt.hashSync(pass);
-	  //var pass_encritada = bcrypt.compareSync(pass, hash);
-	  //console.log("Usuario!!!!!!!!!!!!!!!  "+ user );
-	 // console.log("Contraseñaa!!!!!!!!!!  "+ hash);
-	  
-	  api.getFile('/'+config.ruta_dropbox+'.json', (err,response,body) => {
-	       
-	        for(var i=0; i<body.length;i++){
-	           if(user === body[i].usuario){
-	              body[i].pass = hash;
-	           }
-	         }
-	        console.log(body)
-	        contenido= JSON.stringify(body,null,' ');
-	        console.log(contenido)
-	     
-	      api.removeFile('/'+config.ruta_dropbox+'.json', function(err, response, body){
-	      
-	        var  dbx = new Dropbox({ accessToken: config.token_dropbox });
-	        dbx.filesUpload({path: '/'+config.ruta_dropbox+'.json', contents: contenido});
-	        res.redirect('/home')
-	      })
-	    });
 	  
 	
 	});
