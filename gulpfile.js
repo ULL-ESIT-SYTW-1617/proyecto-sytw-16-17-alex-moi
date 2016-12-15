@@ -33,6 +33,14 @@ gulp.task('wikideploy', function() {
 
 //añadir tareas de deploy en iaas
 
+gulp.task("deploy-iaas", function () {
+    var iaas = require("gitbook-start-proyecto-sytw-alex-moi");
+    var url = paquete.repository.url;
+    var iaas_ip = paquete.iaas.IP;
+    var iaas_path = paquete.iaas.PATH;
+    
+    iaas.deploy_iaas(iaas_ip, iaas_path, url);
+});
 //añadir tarea para añadir ip y path del iaas al json
 
 //añadir tarea para despliegue en heroku

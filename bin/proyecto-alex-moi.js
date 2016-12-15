@@ -7,7 +7,8 @@ var path = require("path");
 var child = require("child_process");
 var gitconfig = require('git-config');
 var prompt = require('prompt');
- 
+var exec = require("ssh-exec");
+const GitUrlParse = require("git-url-parse");
 
 //Variables para el package.json
 var author, email;
@@ -80,11 +81,35 @@ function crear_estructura(dir, serv){
     if( serv == 1 )      //COPIA FICHEROS DESPLIEGUE IAAS 
     {
       
-      fs.copyDir(path.join(__dirname, '..', 'iaas'), path.join(process.cwd(), dir , 'iaas'), function (err) {
+      fs.copyDir(path.join(__dirname, '..', 'iaas','bbdd','app'), path.join(process.cwd(), dir , 'app'), function (err) {
       	if (err)
           console.error(err)
     	});
-
+      
+      fs.copyDir(path.join(__dirname, '..', 'iaas','bbdd','config'), path.join(process.cwd(), dir , 'config'), function (err) {
+      	if (err)
+          console.error(err)
+    	});
+      
+      fs.copyDir(path.join(__dirname, '..', 'iaas','bbdd','public'), path.join(process.cwd(), dir , 'public'), function (err) {
+      	if (err)
+          console.error(err)
+    	});
+      
+      fs.copyDir(path.join(__dirname, '..', 'iaas','bbdd','views'), path.join(process.cwd(), dir , 'views'), function (err) {
+      	if (err)
+          console.error(err)
+    	});
+      
+      fs.copyFileSync(path.join(__dirname, '..', 'iaas','bbdd','mongod'), path.join(process.cwd(), dir , 'mongod'), function (err) {
+      	if (err)
+          console.error(err)
+    	});
+    	
+    	fs.copyFileSync(path.join(__dirname, '..', 'iaas','bbdd','server.js'), path.join(process.cwd(), dir , 'server.js'), function (err) {
+      	if (err)
+          console.error(err)
+    	});
     } 
     
     if( serv == 2 )       //COPIA FICHEROS DESPLIEGUE HEROKU
@@ -129,8 +154,46 @@ function crear_estructura(dir, serv){
             });
       });
       
-      console.log("Estructura de directorios creada!")
+      console.log("Estructura de directorios creada!");
 }
+
+
+function deploy_iaas(ip, ruta, url) {
+
+    var carpeta = GitUrlParse(url);
+
+    console.log("Comenzando el deploy en Iaas");
+    console.log('Direccion IP Destino: '+ip);
+    console.log('Ruta de destino: '+ruta+'/'+carpeta.name);
+    console.log('Repositorio origen: '+url);
+  
+
+    exec('cd '+ruta+';git clone '+url+'',{
+          user: 'usuario',
+          host: ip,
+          key: 'fs.readFileSync(`${process.env.HOME}/.ssh/id_rsa`)'
+    
+      },function(err){
+       if(err){
+      	console.log('Haciendo pull del repositorio!');
+        exec('cd '+ruta+'/'+carpeta.name+'; git pull',{
+            user: 'usuario',
+            host: ip,
+            key: 'fs.readFileSync(`${process.env.HOME}/.ssh/id_rsa`)'
+          },function(err){ 
+            if(err)
+                console.log("Ha habido un error con el pull");
+            else
+                console.log("Actualizacion carpeta confirmada");
+            });
+        }
+        else {
+            console.log("Clonación del repositorio confirmada");
+        }
+    });
+    
+};
+
 
 if(help){
   console.log("\nAyuda proyecto-sytw-alex-moi:"
@@ -155,8 +218,9 @@ else{
   else{
     
     if(dir && !repo_url)
-      return console.log("\n\nEs obligatorio que especifique las opciones -c y -u"
-                         +"\n Ejemplo: proyecto-sytw-alex-moi -c pepito -u https://github.com/usuario/pepito.git"
+      return console.log("\nEs obligatorio que especifique las opciones -c y -u"
+                         +"\nEjemplo: proyecto-sytw-alex-moi -c pepito -u https://github.com/usuario/pepito.git"
+                         +"\n"
       )
     
     var serv;
@@ -168,9 +232,12 @@ else{
           if(err)
               return err;
           if( result.pregunta == 1 || result.pregunta == 2){
-            if(serv == 1 && (!ip_iaas || !path_iaas) )
-              return console.log("Para desplegar en el iaas debe especificar la ip y el path");
             serv = result.pregunta;
+            if(serv == 1 && (!ip_iaas || !path_iaas) )
+              return console.log("\nPara desplegar en el iaas debe especificar la ip y el path"
+                                 +"\nEjemplo: proyecto-sytw-alex-moi -c pepito -u https://github.com/usuario/pepito.git --ip 10.6.128.1 --path /home/usuario"
+                                 +"\n"
+              );
             crear_estructura(dir, serv);
           }
             
