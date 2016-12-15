@@ -192,7 +192,7 @@ function deploy_iaas(ip, ruta, url) {
         }
     });
     
-};
+}
 
 
 if(help){
@@ -253,6 +253,10 @@ else{
 
 }
 
+
+module.exports = {
+  deploy_iaas
+}
 
 /*
 else{
