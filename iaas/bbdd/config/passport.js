@@ -1,5 +1,5 @@
 var LocalStrategy    = require('passport-local').Strategy;
-//var GoogleStrategy   = require('passport-google-oauth').OAuth2Strategy;
+var GoogleStrategy   = require('passport-google-oauth').OAuth2Strategy;
 
 // load up the user model
 var User       = require('../app/models/user');
@@ -106,19 +106,23 @@ module.exports = function(passport) {
                 else {
                     // create the user
                     var newUser            = new User();
-
-                    newUser.local.email    = email;
-                    newUser.local.password = newUser.generateHash(password);
-                    newUser.local.username = req.body.username;
-                    newUser.local.name     = req.body.nombre;
-                    newUser.local.edad     = req.body.edad;
-                    
-                    newUser.save(function(err) {
-                        if (err)
-                            throw err;
-
-                        return done(null, newUser);
-                    });
+                    if(req.body.password === req.body.password2){
+                        newUser.local.email    = email;
+                        newUser.local.password = newUser.generateHash(password);
+                        newUser.local.username = req.body.username;
+                        newUser.local.name     = req.body.nombre;
+                        newUser.local.edad     = req.body.edad;
+                        
+                        newUser.save(function(err) {
+                            if (err)
+                                throw err;
+    
+                            return done(null, newUser);
+                        });
+                    }
+                    else{
+                        return done(null, false, req.flash('signupMessage', 'La contraseña no es la misma'));
+                    }
                 }
 
             });

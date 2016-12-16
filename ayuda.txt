@@ -18,3 +18,10 @@ Funcionalidades:
     autenticacion facebook
     cambiar pass, nombre y otras cosas
     solicitar dos veces la pass en registro
+
+
+mongod --smallfiles
+mongo
+use iaas
+db.users.find()
+db.users.drop()

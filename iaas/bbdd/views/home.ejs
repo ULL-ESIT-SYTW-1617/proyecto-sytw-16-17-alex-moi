@@ -27,7 +27,7 @@
                 </div>
             </nav>
             
-            <div class="contenedor col s12 m6 l6">
+            <div class="contenedor2 col s12 m6 l6">
                 <h4> Hola 
                  	<% if (user.local.email) { %>
 					    <%= user.local.name %>
@@ -45,6 +45,9 @@
                     <i class="material-icons right"></i>
                 </a>
                 <a class="btn waves-effect waves-light #2196f3 blue" type="submit" name="action" href= "/modificacion">Modicar Datos
+                    <i class="material-icons right"></i>
+                </a>
+                <a class="btn waves-effect waves-light #f44336 orange" type="submit" name="action" href= "/datos">Datos Usuario
                     <i class="material-icons right"></i>
                 </a>
                 <a class="btn waves-effect waves-light #f44336 red" type="submit" name="action" href= "/salir">Cerrar Sesión

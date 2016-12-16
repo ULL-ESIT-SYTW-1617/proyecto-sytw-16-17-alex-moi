@@ -46,7 +46,14 @@ const User  = require('./models/user');
             res.render('error', {error: 'Usuario y contraseña incorrecta'})
     });
 
-
+	
+	//Mostrar datos del usuario
+	app.get('/datos', isLoggedIn, function(req, res) {
+		res.render('home.ejs', {
+			user : req.user
+		});
+	});
+	
 // =============================================================================
 // AUTHENTICATE (FIRST LOGIN) ==================================================
 // =============================================================================
@@ -162,30 +169,37 @@ const User  = require('./models/user');
 		console.log("email: " +req.query.email);
 		
 		User.find({}, function(err, user) {
-
+			var aux;
             if (err)
                 return(err);
+			
 			
 			if(user)
 				for(var i=0;i<user.length;i++){
 					
 					console.log("Email: "+user[i].local.email);
 					
-					if(user[i].local.email == req.query.email )
+					if(user[i].local.email === req.query.email )
 						
-						var bcrypt   = require('bcrypt-nodejs');
-						user[i].local.password = bcrypt.hashSync(req.query.pass, bcrypt.genSaltSync(8), null);
-			            //user.local.password = req.query.pass;  
-			
-			            // save user
-			            user[i].save(function(err) {
-			                if (err)
-			                    return(err);
-			
-			                
-			            });
+						if(req.query.pass == req.query.pass2){
+							aux =true;
+							var bcrypt   = require('bcrypt-nodejs');
+							user[i].local.password = bcrypt.hashSync(req.query.pass, bcrypt.genSaltSync(8), null);
+				            //user.local.password = req.query.pass;  
+				
+				            // save user
+				            user[i].save(function(err) {
+				                if (err)
+				                    return(err);
+				            });	
+						}
+						
+						
 				}
-				res.redirect('/home');
+				if(!aux)
+					res.redirect('/modificacion')
+				else
+					res.redirect('/home');
         });
 
 	});

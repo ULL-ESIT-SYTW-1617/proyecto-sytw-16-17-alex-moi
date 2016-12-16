@@ -22,46 +22,35 @@
         <main>
             <nav>
                 <div class="nav-wrapper">
-                    <a href="/home" class="brand-logo">GitBook</a>
-                    <ul class="right hide-on-med-and-down">
-                        <li><a href="#"><i class="material-icons left">input</i>Inicio de Sesión</a></li>
-                    </ul>
+                    <a href="#!" class="brand-logo">GitBook</a>
+                    
                 </div>
             </nav>
             
-            <div class="contenedor2 col s12 m6 l6">
-                <h4> Cambio de contraseña</h4> 
-                <div class="row">
-                    <form class="col s12" action="/modificacion/password" method="get">
-                      <div class="row">
-                        <div class="input-field col s6">
-                          <i class="material-icons prefix">account_circle</i>
-                          <input class="form-control" id="email1" type="email" class="validate" name="email">
-                          <label for="email">Email</label>
-                        </div>
-                        <div class="input-field col s6">
-                          <i class="material-icons prefix">https</i>
-                          <input id="icon_telephone" type="password" class="validate" name="pass">
-                          <label for="icon_telephone">Nueva Contraseña</label>
-                        </div>
-                      </div>
-                      <div class="row">
-                        
-                        <div class="input-field col s6">
-                          <i class="material-icons prefix">https</i>
-                          <input id="icon_telephone" type="password" class="validate" name="pass2">
-                          <label for="icon_telephone">Repita Nueva Contraseña</label>
-                        </div>
-                        <div class="input-field col s6 button">
-                          <input class="btn waves-effect waves-light #f44336 red"  type="submit" name="action" href= "" value="Cambiar Contraseña">
-                            <i class="material-icons right"></i>
-                          </input>
-                        </div>
-                      </div>
-                    </form>
-                  </div>
-        
+            <div class="contenedor col s12 m6 l6">
+                <h4> Hola 
+                 	<% if (user.local.email) { %>
+					    <%= user.local.name %>
+				    <% } %>
+				    <% if (user.google.token) { %>
+					    <%= user.google.name %>
+				    <% } %>
+				</h4>
+				    
+                <p>¿Qué quieres hacer?</p>
+                <p>Recuerda que puedes acceder al book, cambiar tu contraseña, o cerrar la sesión</p>
                 
+               <div class="row">
+                <a class="btn waves-effect waves-light #00c853 green accent-4"  type="submit" name="action" href= "/respuesta">Acceso al Book
+                    <i class="material-icons right"></i>
+                </a>
+                <a class="btn waves-effect waves-light #2196f3 blue" type="submit" name="action" href= "/modificacion">Modicar Datos
+                    <i class="material-icons right"></i>
+                </a>
+                <a class="btn waves-effect waves-light #f44336 red" type="submit" name="action" href= "/salir">Cerrar Sesión
+                    <i class="material-icons right"></i>
+                </a>
+                </div>
             </div>
          
         </main>
