@@ -48,40 +48,7 @@ var usuario_global;
     });
 
 	
-	
-	//Mostrar datos del usuario
-	/*app.get('/datos', function(req, res, next) {
-		res.render('datos.ejs', {
-			user : req.user
-		});
-		
-		User.find({}, function(err, user) {
-		    if(err)
-		    	return err;
-		    if(user)
-				for(var i=0;i<user.length;i++){
-					
-					console.log("Email: "+user[i].local.email);
-					
-					if(user[i].local.email === req.query.email )
-						
-						if(req.query.pass == req.query.pass2){
-							aux =true;
-							var bcrypt   = require('bcrypt-nodejs');
-							user[i].local.password = bcrypt.hashSync(req.query.pass, bcrypt.genSaltSync(8), null);
-				            //user.local.password = req.query.pass;  
-				
-				            // save user
-				            user[i].save(function(err) {
-				                if (err)
-				                    return(err);
-				            });	
-						}
-						
-						
-				}
-		})
-	});*/
+
 	
 // =============================================================================
 // AUTHENTICATE (FIRST LOGIN) ==================================================
@@ -115,16 +82,7 @@ var usuario_global;
 		}));
 		
 		
-		// google ---------------------------------
-		// send to google to do the authentication
-		app.get('/auth/google', passport.authenticate('google', { scope : ['profile', 'email'] }));
-
-		// the callback after google has authenticated the user
-		app.get('/auth/google/callback',
-			passport.authenticate('google', {
-				successRedirect : '/home',
-				failureRedirect : '/fail'
-			}));
+	
 
 
 // =============================================================================
@@ -142,17 +100,6 @@ var usuario_global;
 		}));
 
 
-	// google ---------------------------------
-
-		// send to google to do the authentication
-		app.get('/connect/google', passport.authorize('google', { scope : ['profile', 'email'] }));
-
-		// the callback after google has authorized the user
-		app.get('/connect/google/callback',
-			passport.authorize('google', {
-				successRedirect : '/profile',
-				failureRedirect : '/fail'
-		}));
 
 
 // =============================================================================
@@ -173,14 +120,7 @@ var usuario_global;
 	});
 	
 	
-	// google ---------------------------------
-	app.get('/unlink/google', function(req, res) {
-		var user          = req.user;
-		user.google.token = undefined;
-		user.save(function(err) {
-			res.redirect('/profile');
-		});
-	});
+
 
 
 // =============================================================================
