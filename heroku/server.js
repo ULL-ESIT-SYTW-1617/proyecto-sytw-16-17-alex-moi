@@ -45,11 +45,3 @@ app.use((req, res) => res.render('error', {error: 'No te olvides de publicar el 
 
 app.listen(port);
 console.log('The magic happens on port localhost:' + port);
-
-
-
-
-
-
-
-

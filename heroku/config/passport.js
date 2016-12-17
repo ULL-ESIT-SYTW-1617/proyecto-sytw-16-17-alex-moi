@@ -1,5 +1,6 @@
 var LocalStrategy    = require('passport-local').Strategy;
-var GoogleStrategy   = require('passport-google-oauth').OAuth2Strategy;
+var GoogleStrategy   = require( 'passport-google-oauth2' ).Strategy;
+var FacebookStrategy = require('passport-facebook').Strategy;
 
 var bcrypt = require('bcrypt-nodejs');
 var Model       = require('../app/models/models.js');
@@ -17,12 +18,12 @@ module.exports = function(passport) {
     // passport needs ability to serialize and unserialize users out of session
 
     // used to serialize the user for the session
-    passport.serializeUser(function(user, cb) {
-      cb(null, user);
+    passport.serializeUser(function(user, done) {
+      done(null, user);
     });
     
-    passport.deserializeUser(function(user, cb) {
-        cb(null, user);
+    passport.deserializeUser(function(obj, done) {
+      done(null, obj);
     });
 
 
@@ -57,7 +58,7 @@ module.exports = function(passport) {
 
 
 
-    //              REVISAR
+   
     // =========================================================================
     // GOOGLE ==================================================================
     // =========================================================================
@@ -67,84 +68,90 @@ module.exports = function(passport) {
         clientSecret    : configAuth.googleAuth.clientSecret,
         callbackURL     : configAuth.googleAuth.callbackURL,
         passReqToCallback : true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
-
-    },
-    function(req, token, refreshToken, profile, done) {
-
-        // asynchronous
-        process.nextTick(function() {
-
+        
+      },
+      function(req, token, refreshToken, profile, done) {
+        
+        process.nextTick(function () {
+          
             // check if the user is already logged in
             if (!req.user) {
-
-                Model.User.findOne({where: {
-                    'google.id' : profile.id
-                }}, function(err, user) {
-                    if (err)
-                        return done(err);
-
-                    if (user) {
-
-                        // if there is a user id already but no token (user was linked at one point and then removed)
-                        if (!user.google.token) {
-                            user.google.token = token;
-                            user.google.name  = profile.displayName;
-                            user.google.email = profile.emails[0].value; // pull the first email
-
-                            user.save(function(err) {
-                                if (err)
-                                    throw err;
-                                return done(null, user);
-                            });
+                console.log("entrooo")
+                
+                // Comprobar si el usuario ya existe!
+                Model.User.find({where: {
+                    email: profile.emails[0].value
+                }})
+                .then((user) => {
+                    if(user) {
+                        if (!user.token) {// if there is a user id already but no token (user was linked at one point and then removed)
+                            user.updateAttributes({
+                                token   : token,
+                                name    : profile.displayName,
+                                email   : profile.emails[0].value // pull the first email
+				    	    })
                         }
-
-                        return done(null, user);
-                    } else {
-                        var newUser          = new User();
-
-                        newUser.google.id    = profile.id;
-                        newUser.google.token = token;
-                        newUser.google.name  = profile.displayName;
-                        newUser.google.email = profile.emails[0].value; // pull the first email
-
-                        newUser.save(function(err) {
-                            if (err)
-                                throw err;
-                            return done(null, newUser);
-                        });
+				    	return done(null, user);
+                    }
+                    else
+                    {
+                        Model.User.create(
+            			{
+            				id:		profile.id,
+            			    token:	token,
+            			    email:	profile.emails[0].value,
+            			    name:	profile.displayName
+            			    
+            			}).then((user)=> {
+            				console.log("User new: "+user)
+            				return done(null, user);
+            			})
                     }
                 });
-
+    			
             } else {
+                console.log("error")
                 // user already exists and is logged in, we have to link accounts
                 var user               = req.user; // pull the user out of the session
 
-                user.google.id    = profile.id;
-                user.google.token = token;
-                user.google.name  = profile.displayName;
-                user.google.email = profile.emails[0].value; // pull the first email
-
-                user.save(function(err) {
-                    if (err)
-                        throw err;
-                    return done(null, user);
-                });
-
+                user.id    = profile.id;
+                user.token = token;
+                user.name  = profile.displayName;
+                user.email = profile.emails[0].value; // pull the first email
             }
-
+        
+          //return done(null, profile);
         });
+      }
+    ));
+    
+    
+    
+    
+    passport.use(new FacebookStrategy({
+        clientID        : configAuth.facebookAuth.clientID,
+        clientSecret    : configAuth.facebookAuth.clientSecret,
+        callbackURL     : configAuth.facebookAuth.callbackURL,
+        passReqToCallback : true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
+        
+    }, function(accessToken, refreshToken, profile, done) {
+        
+        Model.User.find({id: profile.id}, function(err, user) {
+            if(err) throw(err);
+            
+            if(!err && user) return done(null, user);
 
-    }));   
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+                Model.User.create(
+    			{
+    				id:		profile.id,
+    			    name :  profile.displayName
+    			    
+    			}).then((user)=> {
+    				console.log("User new: "+user)
+    				return done(null, user);
+    			})
+                            
+            });
+    })); 
     
 };

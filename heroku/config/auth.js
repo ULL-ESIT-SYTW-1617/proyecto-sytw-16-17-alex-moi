@@ -1,9 +1,14 @@
 module.exports = {
 
     'googleAuth' : {
-        'clientID'      : '650600341994-s8u0ca8r6bgm757jq51s5evdi7jds909.apps.googleusercontent.com',
-        'clientSecret'  : 'SNaiOi0RV8poXkr-4-QSuGtA',
+        'clientID'      : '572109298711-bb0l62ie9lnvf3asf48bns9o2sk42sv5.apps.googleusercontent.com',
+        'clientSecret'  : 'sriyEOEqyBI-Ok9t6uDwNEYP',
         'callbackURL'   : 'http://sytw-alu0100782851.c9users.io:8080/auth/google/callback'
+    },
+    'facebookAuth' : {
+        'clientID'      : '572109298711-bb0l62ie9lnvf3asf48bns9o2sk42sv5.apps.googleusercontent.com',
+        'clientSecret'  : 'sriyEOEqyBI-Ok9t6uDwNEYP',
+        'callbackURL'   : 'http://sytw-alu0100782851.c9users.io:8080/auth/facebook/callback'
     }
 
 };

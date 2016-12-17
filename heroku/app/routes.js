@@ -12,6 +12,10 @@ var models = require('./models/models.js');
 	app.get('/', function(req, res) {
 		res.render('index');
 	});
+	
+	app.get('/home', function(req, res) {
+		res.render('home',{user: req.user});
+	});
 
 	// LOGOUT ==============================
     app.get('/salir',
@@ -56,7 +60,6 @@ var models = require('./models/models.js');
 			models.User.find({where: {email: req.body.email}})
 			.then((usuario) =>
 			{
-
 				var pass = req.body.password;
 				var hash = usuario.password;
 				var iguales = bcrypt.compareSync(pass, hash);
@@ -117,16 +120,31 @@ var models = require('./models/models.js');
 		});
 
 
-	// google ---------------------------------
+		// google ---------------------------------
 		// send to google to do the authentication
-		app.get('/auth/google', passport.authenticate('google', { scope : ['profile', 'email'] }));
+		app.get('/auth/google',
+		  passport.authenticate('google', { scope: 
+		    [ 'https://www.googleapis.com/auth/plus.login',
+		    , 'https://www.googleapis.com/auth/plus.profile.emails.read' ] }
+		));
+		
+		app.get( '/auth/google/callback', 
+		    	passport.authenticate( 'google', { 
+		    		successRedirect: '/home',
+		    		failureRedirect: '/login'
+		}));
+		
+		
 
-		// the callback after google has authenticated the user
-		app.get('/auth/google/callback',
-			passport.authenticate('google', {
-				successRedirect : '/home',
-				failureRedirect : '/fail'
-			}));
+		// Facebook ---------------------------------
+		app.get('/auth/facebook', passport.authenticate('facebook'));
+
+		app.get('/auth/facebook/callback', 
+			passport.authenticate('facebook', { 
+				successRedirect: '/home', 
+		    	failureRedirect: '/login' 
+		}));
+
 
 
 // =============================================================================
@@ -137,7 +155,7 @@ var models = require('./models/models.js');
 		app.get('/connect/local', function(req, res) {
 			res.render('connect-local.ejs', { message: req.flash('loginMessage') });
 		});
-		app.post('/connect/local', passport.authenticate('local-signup', {
+		app.post('/connect/local', passport.authenticate('local', {
 			successRedirect : '/home', // redirect to the secure profile section
 			failureRedirect : '/connect/local', // redirect back to the signup page if there is an error
 			failureFlash : true // allow flash messages
@@ -156,6 +174,7 @@ var models = require('./models/models.js');
 				successRedirect : '/profile',
 				failureRedirect : '/fail'
 		}));
+
 
 
 // =============================================================================
@@ -195,7 +214,29 @@ var models = require('./models/models.js');
 	})
 	
 	app.get('/modificacion/password', function(req,res){
-	  
+		models.User.find({where: {email: req.query.email}})
+			.then((user) =>
+			{
+				if (user) {
+
+					var pass = req.query.pass;
+					var hash = user.password;
+					var iguales = bcrypt.compareSync(pass, hash);
+					console.log("\nUser: "+user.password)
+					console.log("\niguales: "+ iguales)
+					console.log("\n\n")
+					
+					if(iguales){
+				    	user.updateAttributes({
+				          password: req.query.pass2
+				    	})
+				        
+				    res.redirect('/login');
+					}
+				}
+				else 
+				  return (null);
+		});
 	
 	});
 
