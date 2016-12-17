@@ -110,14 +110,17 @@ module.exports = function(passport) {
                 });
     			
             } else {
-                console.log("error")
+                console.log("user existe y esta logeado")
                 // user already exists and is logged in, we have to link accounts
-                var user               = req.user; // pull the user out of the session
+                var user    = req.user; // pull the user out of the session
 
-                user.id    = profile.id;
-                user.token = token;
-                user.name  = profile.displayName;
-                user.email = profile.emails[0].value; // pull the first email
+                user.updateAttributes({
+                    id    : profile.id,
+                    token : token,
+                    name  : profile.displayName,
+                    email : profile.emails[0].value // pull the first email
+	    	    })
+                return done(null, user);
             }
         
           //return done(null, profile);
@@ -125,18 +128,72 @@ module.exports = function(passport) {
       }
     ));
     
-    
-    
+
     
     passport.use(new FacebookStrategy({
         clientID        : configAuth.facebookAuth.clientID,
         clientSecret    : configAuth.facebookAuth.clientSecret,
         callbackURL     : configAuth.facebookAuth.callbackURL,
-        passReqToCallback : true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
+        profileFields: ['id', 'name', 'displayName', 'picture.type(large)', 'hometown', 'profileUrl', 'email'],
+        enableProof: false,
+        session: false,
+        passReqToCallback : true
         
-    }, function(accessToken, refreshToken, profile, done) {
+    }, function (req, token, refreshToken, profile, done) {
+
+        console.log("profile: "+ profile.emails[0].value)
         
-        Model.User.find({id: profile.id}, function(err, user) {
+        // check if the user is already logged in
+        if (!req.user) {
+            console.log("entrooo")
+            
+            // Comprobar si el usuario ya existe!
+            Model.User.find({where: {
+                email: profile.emails[0].value
+            }})
+            .then((user) => {
+                if(user) {
+                    if (!user.token) {// if there is a user id already but no token (user was linked at one point and then removed)
+                        user.updateAttributes({
+                            token   : token,
+                            name    : profile.displayName,
+                            email   : profile.emails[0].value // pull the first email
+			    	    })
+                    }
+			    	return done(null, user);
+                }
+                else
+                {
+                    Model.User.create(
+        			{
+        				id:		profile.id,
+        			    token:	token,
+        			    email:	profile.emails[0].value,
+        			    name:	profile.displayName
+        			    
+        			}).then((user)=> {
+        				console.log("User new: "+user)
+        				return done(null, user);
+        			})
+                }
+            });
+			
+        } else {
+            console.log("user existe y esta logeado")
+            // user already exists and is logged in, we have to link accounts
+            var user    = req.user; // pull the user out of the session
+
+            user.updateAttributes({
+                id    : profile.id,
+                token : token,
+                name  : profile.displayName,
+                email : profile.emails[0].value // pull the first email
+    	    })
+            return done(null, user);
+        }
+        
+        
+        Model.User.find({email: profile.email}, function(err, user) {
             if(err) throw(err);
             
             if(!err && user) return done(null, user);
@@ -151,7 +208,9 @@ module.exports = function(passport) {
     				return done(null, user);
     			})
                             
-            });
-    })); 
+        });
+        
+      
+    }));
     
 };

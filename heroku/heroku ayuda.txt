@@ -4,3 +4,35 @@ revisar las vistas y los enlaces a las mismas etc etc
 
 revisar routes
 
+GOOGLE:
+    seguir tutorial dsi, copiar id, secret y callback en auth.js y luego descargar json que tienes en la pagina de google y meterlo en nuestro directorio. Luego subir todo a heroku
+    
+FACEBOOK:
+    ir a https://developers.facebook.com/
+    registrarte en la pagina, te pedira si aun no lo tienes hecho que confirmes que eres tu mediante envio de codigo de verificacion al movil. 
+    una vez estas registrado, creas una nueva aplicacion y te saldra un cuadro como este : https://gyazo.com/9a06944da5dd01f90eaef829892c0165
+    
+    pones tu correo y tu nombre de aplicacion y poner categoria aplicaciones para paginas. A continuacion introducir el captcha q nos pide.
+    
+    En el menu de la izquierda de la pagina a la que nos redirecciona ir a Revision de la Aplicacion. Marcar SI donde se pregunta ¿Quieres que kkk sea una aplicación pública?
+    
+    Hacer clic en el menu de la izquierda en Panel. Luego copiamos nuestro id y nuestro secret en el fichero auth.js de nuestro directorio cada uno en su correspondiente lugar y añadimos la callback
+    la callback deberia tener la siguiente forma:
+        c9:         http://nameworkspace.c9users.io:8080/auth/facebook/callback
+        localhost:  http://localhost:8080/auth/facebook/callback
+        heroku:     https://proyectito.herokuapp.com/auth/facebook/callback
+        
+        
+    Volviendo a la pagina de developers de facebook en la seccion de panel hacemos clic en Elegir plataforma y luego clic en Sitio Web. Esto nos redirecciona a otra pagina, en esta lo unico que debemos hacer 
+    es dirigirnos al final del todo, a esta seccion: https://gyazo.com/7983d6b7dfd016eb7e8dae061f5d6a5d y colocar la url de nuestra pagina por ejemplo si seguimos con los ejemplos anteriores serian las siguiente:
+        c9:         http://nameworkspace.c9users.io:8080
+        localhost:  http://localhost:8080
+        heroku:     https://proyectito.herokuapp.com
+        
+        
+                              <div
+                              class="fb-like"
+                              data-share="true"
+                              data-width="450"
+                              data-show-faces="true">
+                          </div>

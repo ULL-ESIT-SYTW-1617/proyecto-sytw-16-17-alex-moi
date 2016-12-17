@@ -50,13 +50,12 @@
                           <input class="btn waves-effect waves-light #00c853 green accent-4"  type="submit" name="action" value="Iniciar Sesión">
                           <i class="material-icons right"></i>
                           </input>
-                          <a class="btn waves-effect waves-light #2196f3 blue" type="submit" name="action" href= "/invitado">Invitado
-                              <i class="material-icons right"></i>
-                          </a>
                           <a class="btn waves-effect waves-light #2196f3 red" type="submit" name="action" href= "/auth/google">Google+
                               <i class="material-icons right"></i>
                           </a>
-                                                    
+                          <a class="btn waves-effect waves-light #2196f3 blue" type="submit" name="action" href= "/auth/facebook">Facebook
+                              <i class="material-icons right"></i>
+                          </a>
                           <a href="/signup" id="boton2" class="waves-effect waves-light btn #f44336 orange"><i class="material-icons right">send</i>Registro</a>
                       </div>
                     </form>
@@ -87,8 +86,27 @@
         </footer>
     
         <!--Import jQuery before materialize.js-->
-        <script src="http://code.jquery.com/jquery.min.js"></script>
+        <script src="https://code.jquery.com/jquery.min.js"></script>
         <script type="text/javascript" scr="https://code.jquery.com/jquery-2.1.1.min.js"></script>
         <script type="text/javascript" src="assets/materialize/js/materialize.min.js"></script>
+        
+        
+        <script>
+          window.fbAsyncInit = function() {
+            FB.init({
+              appId      : '1182599968443234',
+              xfbml      : true,
+              version    : 'v2.8'
+            });
+          };
+          
+          (function(d, s, id){
+             var js, fjs = d.getElementsByTagName(s)[0];
+             if (d.getElementById(id)) {return;}
+             js = d.createElement(s); js.id = id;
+             js.src = "//connect.facebook.net/en_US/sdk.js";
+             fjs.parentNode.insertBefore(js, fjs);
+           }(document, 'script', 'facebook-jssdk'));
+        </script>
     </body>
 </html>
