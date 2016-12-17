@@ -27,24 +27,36 @@
                 </div>
             </nav>
             
-            <div class="contenedor col s12 m6 l6">
-                <h4> Hola 
-                 	<% if (user.local.email) { %>
+            <div class="contenedor3 col s12 m6 l6">
+                <h5> Información del usuario </h5>
+				<p> <b>Nombre : </b> 
+				    <% if (user.local.email) { %>
 					    <%= user.local.name %>
 				    <% } %>
-				    <% if (user.google.token) { %>
-					    <%= user.google.name %>
+				</p>
+				<p> <b>Usuario : </b> 
+				    <% if (user.local.email) { %>
+					    <%= user.local.username %>
 				    <% } %>
-				</h4>
-				    
-                <p>¿Qué quieres hacer?</p>
-                <p>Recuerda que puedes acceder al book, cambiar tu contraseña, o cerrar la sesión</p>
+				</p>
+				
+				<p> <b>Email : </b> 
+				    <% if (user.local.email) { %>
+					    <%= user.local.email %>
+				    <% } %>
+				</p>
                 
+                <p> <b>Edad : </b> 
+				    <% if (user.local.email) { %>
+					    <%= user.local.edad %>
+				    <% } %>
+				</p>
+				
                <div class="row">
-                <a class="btn waves-effect waves-light #00c853 green accent-4"  type="submit" name="action" href= "/respuesta">Acceso al Book
+                <a class="btn waves-effect waves-light #00c853 green accent-4"  type="submit" name="action" href= "/home">Home
                     <i class="material-icons right"></i>
                 </a>
-                <a class="btn waves-effect waves-light #2196f3 blue" type="submit" name="action" href= "/modificacion">Modicar Datos
+                <a class="btn waves-effect waves-light #2196f3 blue" type="submit" name="action" href= "/modificacion">Modicar Contraseña
                     <i class="material-icons right"></i>
                 </a>
                 <a class="btn waves-effect waves-light #f44336 red" type="submit" name="action" href= "/salir">Cerrar Sesión
