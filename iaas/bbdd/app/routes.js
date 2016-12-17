@@ -239,9 +239,19 @@ var usuario_global;
 		});
     });
 	
+	app.get('/loginadmin',function(req, res) {
+	    res.render('loginadmin.ejs');
+	})
 
+	app.post('/loginadmin', passport.authenticate('local-login-admin', {
+		successRedirect : '/admin', // redirect to the secure profile section
+		failureRedirect : '/loginadmin', // redirect back to the signup page if there is an error
+		failureFlash : true // allow flash messages
+	}));
 
-
+	app.get('/admin',function(req, res) {
+	    res.render('admin.ejs');
+	})
 };
 
 // route middleware to ensure user is logged in

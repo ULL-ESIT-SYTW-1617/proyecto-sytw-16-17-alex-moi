@@ -17,7 +17,7 @@
         
         <link rel="icon" type="image/png" href="./assets/images/gitbook.png" />
     </head>
-    <body>
+    <body >
      
         <main>
             <nav>
@@ -29,26 +29,37 @@
                 </div>
             </nav>
             
-            
-            <div class="contenedor col s12 m6 l6">
-                 <h4> Bienvenido </h4>
-                <p>Accede a tu cuenta o regístrate</p>
-                
-                <div class="row" id="principio">
-                    <div class="cols m12 s12">
-                        <div class="row">
-                            <a href="/login" id="boton1" class="waves-effect waves-light btn #2196f3 blue"><i class="material-icons right">send</i>Inicio Sesión</a>
-                            <a href="/signup" id="boton2" class="waves-effect waves-light btn #00c853 green accent-4"><i class="material-icons right">send</i>Registro</a>
-                            <a href="/loginadmin" id="boton2" class="waves-effect waves-light btn #f44336 orange"><i class="material-icons right">send</i>Administrador</a>
+            <div class="contenedor2 col s12 m6 l6">
+                <h4> Inicie Sesión como administrador</h4> 
+                <p>Para acceder al book, deberá iniciar sesión o acceder como invitado</p>
+                <div class="row">
+                    <form class="col s12" action="/loginadmin" method="post">
+                      <div class="row">
+                        <div class="input-field col s6">
+                          <i class="material-icons prefix">account_circle</i>
+                          <input class="form-control" id="email2" type="email" class="validate" name="email">
+                          <label for="email">Email</label>
                         </div>
-                    </div>
-                </div>
+                        <div class="input-field col s6">
+                          <i class="material-icons prefix">https</i>
+                          <input id="icon_telephone" type="password" class="validate" name="password">
+                          <label for="icon_telephone" >Contraseña</label>
+                        </div>
+                      </div>
+                      <div class="row">
+                          <input class="btn waves-effect waves-light #00c853 green accent-4"  type="submit" name="action" value="Iniciar Sesión">
+                          <i class="material-icons right"></i>
+                          </input>
+                    
+                      </div>
+                    </form>
+                  </div>
+        
+                
             </div>
-            
-            
-            
-   
+         
         </main>
+
 
         <footer class="page-footer ">
           <div class="container">

@@ -17,38 +17,40 @@
         
         <link rel="icon" type="image/png" href="./assets/images/gitbook.png" />
     </head>
-    <body>
+    <body >
      
         <main>
             <nav>
                 <div class="nav-wrapper">
                     <a href="#!" class="brand-logo">GitBook</a>
-                    <ul class="right hide-on-med-and-down">
-                        <li><a href="#"><i class="material-icons left">input</i>Inicio de Sesión</a></li>
-                    </ul>
+                    
                 </div>
             </nav>
             
-            
-            <div class="contenedor col s12 m6 l6">
-                 <h4> Bienvenido </h4>
-                <p>Accede a tu cuenta o regístrate</p>
+            <div class="contenedor3 col s12 m6 l6">
+                <h4> Administración de usuarios</h4>
+				<h5>Usuarios en la base de datos</h5>
                 
-                <div class="row" id="principio">
-                    <div class="cols m12 s12">
-                        <div class="row">
-                            <a href="/login" id="boton1" class="waves-effect waves-light btn #2196f3 blue"><i class="material-icons right">send</i>Inicio Sesión</a>
-                            <a href="/signup" id="boton2" class="waves-effect waves-light btn #00c853 green accent-4"><i class="material-icons right">send</i>Registro</a>
-                            <a href="/loginadmin" id="boton2" class="waves-effect waves-light btn #f44336 orange"><i class="material-icons right">send</i>Administrador</a>
-                        </div>
-                    </div>
+                <p>Recuerda que puedes acceder al book, cambiar tu contraseña, o cerrar la sesión</p>
+                
+               <div class="row">
+                <a class="btn waves-effect waves-light #00c853 green accent-4"  type="submit" name="action" href= "/respuesta">Acceso al Book
+                    <i class="material-icons right"></i>
+                </a>
+                <a class="btn waves-effect waves-light #2196f3 blue" type="submit" name="action" href= "/modificacion">Modicar Datos
+                    <i class="material-icons right"></i>
+                </a>
+                <a class="btn waves-effect waves-light #f44336 orange" type="submit" name="action" href= "/informacion">Datos Usuario
+                    <i class="material-icons right"></i>
+                </a>
+                <a class="btn waves-effect waves-light #f44336 red" type="submit" name="action" href= "/salir">Cerrar Sesión
+                    <i class="material-icons right"></i>
+                </a>
                 </div>
             </div>
-            
-            
-            
-   
+         
         </main>
+
 
         <footer class="page-footer ">
           <div class="container">
