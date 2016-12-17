@@ -3,3 +3,4 @@ cambiar el fichero passport para la parte de google y que guarde y añada al fic
 revisar las vistas y los enlaces a las mismas etc etc
 
 revisar routes
+
