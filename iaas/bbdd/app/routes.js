@@ -6,6 +6,7 @@ var path          = require('path');
 /* Traemos los esquemas para trabajar con ellos */
 const User  = require('./models/user');
 
+var usuario_global;
 
 // normal routes ===============================================================
 
@@ -47,12 +48,40 @@ const User  = require('./models/user');
     });
 
 	
+	
 	//Mostrar datos del usuario
-	app.get('/datos', isLoggedIn, function(req, res) {
-		res.render('home.ejs', {
+	/*app.get('/datos', function(req, res, next) {
+		res.render('datos.ejs', {
 			user : req.user
 		});
-	});
+		
+		User.find({}, function(err, user) {
+		    if(err)
+		    	return err;
+		    if(user)
+				for(var i=0;i<user.length;i++){
+					
+					console.log("Email: "+user[i].local.email);
+					
+					if(user[i].local.email === req.query.email )
+						
+						if(req.query.pass == req.query.pass2){
+							aux =true;
+							var bcrypt   = require('bcrypt-nodejs');
+							user[i].local.password = bcrypt.hashSync(req.query.pass, bcrypt.genSaltSync(8), null);
+				            //user.local.password = req.query.pass;  
+				
+				            // save user
+				            user[i].save(function(err) {
+				                if (err)
+				                    return(err);
+				            });	
+						}
+						
+						
+				}
+		})
+	});*/
 	
 // =============================================================================
 // AUTHENTICATE (FIRST LOGIN) ==================================================
@@ -204,7 +233,12 @@ const User  = require('./models/user');
 
 	});
 	
-
+	app.get('/informacion',function(req, res) {
+		res.render('datos.ejs', {
+			user : req.user
+		});
+    });
+	
 
 
 
