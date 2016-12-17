@@ -30,19 +30,44 @@
             <div class="contenedor3 col s12 m6 l6">
                 <h4> Administración de usuarios</h4>
 				<h5>Usuarios en la base de datos</h5>
+			    <ul>
+			      <% for(var i=0; i<usuarios.length; i++) { %>
+			           <li>
+			               <a><%= usuarios[i].local.email%></a>
+			           </li>
+			   
+			      <% } %>
+			    </ul>
+			    
+                <form class="col s12" action="/borraruser" method="get">
+        
+                    <div class="row">
+                        <div class="input-field col s4">
+                            <i class="material-icons prefix">account_circle</i>
+                            <input class="form-control" id="email2" type="email" class="validate" name="email">
+                            <label for="email">Usuario para borrar</label>
+                        </div>
+                        <div class="input-field col s4">
+                              <i class="material-icons prefix">https</i>
+                              <input id="icon_telephone" type="password" class="validate" name="password">
+                              <label for="icon_telephone" >Contraseña Admin</label>
+                        </div>
+                        <div class="col4">
+                            <input class="btn waves-effect waves-light #f44336 orange"  type="submit" name="action" value="Borrar">
+                            <i class="material-icons right"></i>
+                             </input>
+                        </div>
+                          
+                    </div>
+                    
+                </form>
                 
-                <p>Recuerda que puedes acceder al book, cambiar tu contraseña, o cerrar la sesión</p>
-                
+
                <div class="row">
                 <a class="btn waves-effect waves-light #00c853 green accent-4"  type="submit" name="action" href= "/respuesta">Acceso al Book
                     <i class="material-icons right"></i>
                 </a>
-                <a class="btn waves-effect waves-light #2196f3 blue" type="submit" name="action" href= "/modificacion">Modicar Datos
-                    <i class="material-icons right"></i>
-                </a>
-                <a class="btn waves-effect waves-light #f44336 orange" type="submit" name="action" href= "/informacion">Datos Usuario
-                    <i class="material-icons right"></i>
-                </a>
+                
                 <a class="btn waves-effect waves-light #f44336 red" type="submit" name="action" href= "/salir">Cerrar Sesión
                     <i class="material-icons right"></i>
                 </a>
