@@ -160,6 +160,7 @@ module.exports = function(passport) {
                             email   : profile.emails[0].value // pull the first email
 			    	    })
                     }
+                    console.log("User new: "+user)
 			    	return done(null, user);
                 }
                 else
@@ -172,7 +173,7 @@ module.exports = function(passport) {
         			    name:	profile.displayName
         			    
         			}).then((user)=> {
-        				console.log("User new: "+user)
+        				console.log("User new: "+user[0])
         				return done(null, user);
         			})
                 }
@@ -189,6 +190,7 @@ module.exports = function(passport) {
                 name  : profile.displayName,
                 email : profile.emails[0].value // pull the first email
     	    })
+    	    console.log("User new: "+user[0])
             return done(null, user);
         }
         
@@ -204,7 +206,7 @@ module.exports = function(passport) {
     			    name :  profile.displayName
     			    
     			}).then((user)=> {
-    				console.log("User new: "+user)
+    				console.log("User new: "+user[0])
     				return done(null, user);
     			})
                             

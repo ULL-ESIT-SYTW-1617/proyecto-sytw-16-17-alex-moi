@@ -1,10 +1,11 @@
 module.exports = function(app, passport) {
 
-var express  = require("express");
-var path          = require('path');
-var bcrypt = require("bcrypt-nodejs")
-var models = require('./models/models.js');
-
+var express = require("express");
+var path	= require('path');
+var bcrypt	= require("bcrypt-nodejs")
+var models	= require('./models/models.js');
+var fs		= require('fs');
+var jsPDF	= require("node-jspdf");
 
 // normal routes ===============================================================
 
@@ -240,6 +241,35 @@ var models = require('./models/models.js');
 	
 	});
 
+
+	app.get('/descargar', (req,res) =>{
+		fs.readFile( path.join(__dirname, '..','gh-pages','index.html'), (err, data) => {
+			if (err) throw err;
+			
+			console.log(data);
+			//transforma a pdf
+			var doc = new jsPDF();          
+
+			doc.text(20, 20, "pepe");
+			
+			doc.save('gitbook.pdf');
+			//});
+			
+			//descargar
+			res.download(path.join(__dirname, '..','gitbook.pdf'), function(err){
+				if (err) {
+					console.log(err)
+					res.redirect('/error')
+				} else {
+					res.redirect('/home');
+				}
+			});
+			
+
+		});
+		
+
+	})
 
 
 };
