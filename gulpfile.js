@@ -47,6 +47,6 @@ gulp.task("deploy-iaas", function () {
 //añadir tarea para despliegue en heroku
 gulp.task("deploy-heroku", function () {
     var heroku = require("proyecto-sytw-alex-moi");
-    heroku.deploy_iaas();
+    heroku.deploy_heroku();
 });
 
