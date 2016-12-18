@@ -118,7 +118,7 @@ En el caso de ser administrador también se permite:
  6. Establecer permisos de administrador a un usuario
  7. Eliminar dichos privilegios de un usuario que los posea.
 
-En la base de datos se encuentra creada una cuenta con el siguiente email: **admin@gmail.com**, que es el admin de la aplicación. Es **IMPORTANTE** que entré en la cuenta de este usuario con ese email y password: admin y modifique la password del mismo dado que sino cualquier usuario podrá acceder a ella como admin y manipularla a su antojo.
+En la base de datos se encuentra creada una cuenta con el siguiente email: **admin@gmail.com**, que es el admin de la aplicación. Es **IMPORTANTE** que entre en la cuenta de este usuario con ese email y password: admin y modifique la password del mismo dado que sino cualquier usuario podrá acceder a ella como admin y manipularla a su antojo.
 
  
 ####Google authentication
