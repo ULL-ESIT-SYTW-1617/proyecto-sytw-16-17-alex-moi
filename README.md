@@ -51,7 +51,7 @@ También es necesario tener generado en la máquina del iaas las claves para uti
 
 Para crear la estructura de directorios del Gitbook ejecutamos:
 ```shell
-gitbook-start-alex-moi-nitesh -c nombre_directorio -u https://github.com/usuario/ejemplo.git --ip 10.6.128.1 --path /home/usuario (sin '/' al final de la ruta)
+proyecto-alex-moi -c nombre_directorio -u https://github.com/usuario/ejemplo.git --ip 10.6.128.1 --path /home/usuario (sin '/' al final de la ruta)
 ```
 Elija la **opcion 1**.
 Una vez instalado y ejecutado, en la carpeta que se ha creado hacemos:
@@ -87,16 +87,87 @@ Para esto último es importante que registre una cuenta con el siguiente email: 
 
 ## Paquete para el despligue en Heroku
 
+#### Creación de la estructura
+
 Para crear la estructura de directorios del Gitbook ejecutamos:
 ```shell
-gitbook-start-alex-moi-nitesh -c nombre_directorio -u https://github.com/usuario/ejemplo.git 
+proyecto-alex-moi -c nombre_directorio -u https://github.com/usuario/ejemplo.git
 ```
 Elija la **opcion 2**.
 
+Una vez instalado y ejecutado, en la carpeta que se ha creado hacemos:
 
+```shell
+npm install
+gulp build
+git init 
+heroku git:remote -a nombreapp 
+gulp deploy-heroku
+```
+LLegados a este punto ya tendremos nuestra aplicación en heroku desplegada y funcionando.
+
+#### Uso de la aplicación
+
+Podrá disponer de un servicio web donde se puede:
+ 1. Registrar y mostrar los datos de un usuario
+ 2. Acceder al **book** de la aplicación 
+ 3. Descargar el book en pdf 
+ 4. En el caso de ser administrador también se permite:
+   4.1. Añadir/borrar cuentas de usuario
+   4.2 Establecer permisos de administrador a un usuario 
+   4.3 Eliminar dichos privilegios de un usuario que los posea.
+
+En la base de datos se encuentra creada una cuenta con el siguiente email: **admin@gmail.com**, que es el admin de la aplicación. Es **IMPORTANTE** que entré en la cuenta de este usuario con ese email y password: admin y modifique la password del mismo dado que sino cualquier usuario podrá acceder a ella como admin y manipularla a su antojo.
 
  
+####Google authentication
+Los pasos a seguir para conseguir la autenticación mediante google en la aplicación son los descritos en el siguiente tutorial:  [Documentación](https://developers.google.com/identity/sign-in/web/devconsole-project) 
 
+Los formatos de las rutas de origen deben ser similares a estos:
+
+ - c9:         http://nameworkspace.c9users.io:8080
+ - localhost:  http://localhost:8080
+ - heroku:     https://nameapp.herokuapp.com
+
+Los formatos de las rutas de callback deben ser similares a estos:
+
+ - c9:         http://nameworkspace.c9users.io:8080/auth/google/callback
+ - localhost:  http://localhost:8080/auth/google/callback
+ - heroku:     https://nameapp.herokuapp.com/auth/google/callback
+        
+Una vez hecho esto bastará con copiar nuestro id, secret y callback en el fichero auth.js y luego **descargar el json** y meterlo en nuestro directorio. Es importante añadir el json(sección credenciales de la página) a nuestro directorio puesto que sino la autenticación mediante google no funcionará.
+
+
+####Facebook authentication
+Los pasos a seguir para poner en funcionamiento la autenticacion con facebook son los que se exponen a continuación.
+
+Lo primero será dirigirnos a la web [Facebook developers](https://developers.facebook.com/) y registrarnos en la pagina, te pedirá si aun no lo tienes hecho que confirmes tu cuenta mediante el envío de un código de verificación al móvil. 
+
+Una vez estas registrado, creas una nueva aplicación en la sección *mis aplicaciones* y te saldrá un cuadro como este : 
+![enter image description here](https://i.gyazo.com/9a06944da5dd01f90eaef829892c0165.png)
+
+    
+Rellenamos nuestro tu correo, nombre de aplicación y en categoría seleccionamos 'aplicaciones para paginas'. A continuación introducir el captcha que nos pide.
+    
+En el menu de la izquierda de la pagina a la que nos redirecciona ir a *Revisión de la Aplicación*. Marcar SI donde se pregunta ¿Quieres que tu aplicación sea pública?.
+    
+A continuación hacer click en el menu de la izquierda en *Panel*. Luego copiamos nuestro id y nuestro secret en el fichero auth.js de nuestro directorio, cada uno en su correspondiente lugar y añadimos la callback
+
+Los formatos de las rutas de callback deben ser similares a estos:
+
+ -  c9:         http://nameworkspace.c9users.io:8080/auth/facebook/callback
+ - localhost:  http://localhost:8080/auth/facebook/callback
+ - heroku:     https://nameapp.herokuapp.com/auth/facebook/callback
+        
+        
+Volviendo a la pagina de developers de facebook en la sección de *Panel* hacemos clic en *Elegir plataforma* y luego clic en *Sitio Web*. Esto nos redirecciona a otra pagina, en ésta lo único que debemos hacer es dirigirnos al final del todo, a esta sección: 
+![](https://i.gyazo.com/7983d6b7dfd016eb7e8dae061f5d6a5d.png) 
+
+Y colocar la url de nuestra página por ejemplo, continuando con los ejemplos anteriores, la url debería tener la forma siguiente:
+
+ -  c9:         http://nameworkspace.c9users.io:8080
+ - localhost:  http://localhost:8080
+ - heroku:     https://nameapp.herokuapp.com
 
 
 
