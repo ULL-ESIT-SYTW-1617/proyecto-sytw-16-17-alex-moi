@@ -85,36 +85,7 @@ function crear_estructura(dir, serv){
       	if (err)
           console.error(err)
     	});
-      /*
-      fs.copyDir(path.join(__dirname, '..', 'iaas','bbdd','app'), path.join(process.cwd(), dir , 'app'), function (err) {
-      	if (err)
-          console.error(err)
-    	});
-      
-      fs.copyDir(path.join(__dirname, '..', 'iaas','bbdd','config'), path.join(process.cwd(), dir , 'config'), function (err) {
-      	if (err)
-          console.error(err)
-    	});
-      
-      fs.copyDir(path.join(__dirname, '..', 'iaas','bbdd','public'), path.join(process.cwd(), dir , 'public'), function (err) {
-      	if (err)
-          console.error(err)
-    	});
-      
-      fs.copyDir(path.join(__dirname, '..', 'iaas','bbdd','views'), path.join(process.cwd(), dir , 'views'), function (err) {
-      	if (err)
-          console.error(err)
-    	});
-      
-      fs.copyFileSync(path.join(__dirname, '..', 'iaas','bbdd','mongod'), path.join(process.cwd(), dir , 'mongod'), function (err) {
-      	if (err)
-          console.error(err)
-    	});
-    	
-    	fs.copyFileSync(path.join(__dirname, '..', 'iaas','bbdd','server.js'), path.join(process.cwd(), dir , 'server.js'), function (err) {
-      	if (err)
-          console.error(err)
-    	});*/
+
     } 
     
     if( serv == 2 )       //COPIA FICHEROS DESPLIEGUE HEROKU
