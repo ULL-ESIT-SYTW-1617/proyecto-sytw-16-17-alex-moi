@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--Importa los iconos-->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        
+        <!--Css de materialize-->
+        <link type="text/css" rel="stylesheet" href="assets/materialize/css/materialize.min.css"  media="screen,projection"/>
+        <link type="text/css" rel="stylesheet" href="assets/materialize/css/index/index.css">
+        
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        
+        <!-- Google fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Coda" rel="stylesheet">
+        
+        <link rel="icon" type="image/png" href="./assets/images/gitbook.png" />
+    </head>
+    <body >
+     
+        <main>
+            <nav>
+                <div class="nav-wrapper">
+                    <a href="#!" class="brand-logo">GitBook</a>
+                    
+                </div>
+            </nav>
+            
+            <div class="contenedor4 col s12 m6 l6">
+                <h3> Administración de usuarios</h3>
+				<h5>Usuarios en la base de datos</h5>
+			    <ul>
+			      <% for(var i=0; i<usuarios.length; i++) { %>
+			           <li>
+			               <p><%= usuarios[i].local.email%></p>
+			           </li>
+			   
+			      <% } %>
+			    </ul>
+			    
+			        <h5>Borrado de Usuarios</h5>
+			    
+			    
+                <form class="col s12" action="/borraruser" method="get">
+        
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <i class="material-icons prefix">account_circle</i>
+                            <input class="form-control" id="email2" type="email" class="validate" name="email">
+                            <label for="email">Usuario para borrar</label>
+                        </div>
+                        
+                        <div class="col4">
+                            <input class="btn waves-effect waves-light #f44336 orange"  type="submit" name="action" value="Borrar">
+                            <i class="material-icons right"></i>
+                             </input>
+                        </div>
+                          
+                    </div>
+                    
+                </form>
+                <div class="row">
+                    <h5>Registro de Usuario</h5>
+                    
+                     <form class="col s12 " action="/signup-admin" method="post" onsubmit="return validacion_signup()">
+                                <div class="row">
+                                    <div class="input-field col s12 m4">
+                                        <input class="form-control white-text" id="nombre1" type="text" class="validate" name="nombre">
+                                        <label class ="white-text" for="nombre1 ">Nombre y Apellidos</label>
+                                    </div>
+                                    <div class="input-field col s12 m3">
+                                        <input class="form-control white-text" id="username1" type="text" class="validate" name="username">
+                                        <label  class ="white-text" for="username1">Usuario</label>
+                                    </div>
+                                    <div class="input-field col s12 m5">
+                                        <input class="form-control white-text" id="email1" type="email" class="validate" name="email">
+                                        <label class ="white-text" for="email">Email</label>
+                                    </div>
+                                </div>
+                                 
+                                <div class="row">
+                                    
+                                    <div class="input-field col s12 m2">
+                                        <input class="form-control white-text" id="edad1" type="number" min="18" class="validate" name="edad">
+                                        <label class ="white-text" for="edad">Edad</label>
+                                    </div>
+                                    <div class="input-field col s12 m4">
+                                        <input id="password1" class="form-control white-text" type="password" class="validate" name="password">
+                                        <label class ="white-text" for="password">Contraseña</label>
+                                    </div>
+                                     <div class="input-field col s12 m4">
+                                        <input id="password1" class="form-control white-text" type="password" class="validate" name="password2">
+                                        <label class ="white-text" for="password">Repita Contraseña</label>
+                                    </div>
+                                </div>
+                                
+                                
+                                <div class="row">
+                                    <div class="col m3 s12">
+                                        <button class="btn waves-effect waves-light black-text #00c853 green accent-4" type="submit" >Registrar
+                                    </div>
+                                    <a class="btn waves-effect waves-light #2196f3 blue"  type="submit" name="action" href= "/respuesta">Acceso al Book
+                                        <i class="material-icons right"></i>
+                                    </a>
+                                    
+                                    <a class="btn waves-effect waves-light #f44336 red" type="submit" name="action" href= "/salir">Cerrar Sesión
+                                        <i class="material-icons right"></i>
+                                    </a>
+                                </div>
+                               
+                            </form>
+                </div>
+                
+                            
+               <div class="row">
+                    
+                </div>
+            </div>
+         
+        </main>
+
+
+        <footer class="page-footer ">
+          <div class="container">
+            <div class="row">
+              <div class="col l6 m6 s12">
+                <h5 class="">GitBook desarrollado con</h5>
+                <p class="">Paquete npm gitbook-start-alex-moi-nitesh</p>
+              </div>
+              <div class="col l4 offset-l2 m6 s12">
+                <h5 class="">Creadores del paquete</h5>
+                <ul>
+                  <li><a class="nombres" href="#!">Moisés Yanes Carballo</a></li>
+                  <li><a class="nombres" href="#!">Alexander Cole Mora</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </footer>
+    
+        <!--Import jQuery before materialize.js-->
+        <script src="http://code.jquery.com/jquery.min.js"></script>
+        <script type="text/javascript" scr="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="assets/materialize/js/materialize.min.js"></script>
+    </body>
+</html>

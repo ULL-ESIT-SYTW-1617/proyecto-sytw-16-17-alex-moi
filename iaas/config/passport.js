@@ -165,6 +165,58 @@ module.exports = function(passport) {
 
     }));
     
+    
+    passport.use('local-signup-admin', new LocalStrategy({
+        // by default, local strategy uses username and password, we will override with email
+        usernameField : 'email',
+        passwordField : 'password',
+        passReqToCallback : true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
+    },
+    function(req, email, password, done) {
+
+        // asynchronous
+        process.nextTick(function() {
+
+            //  Whether we're signing up or connecting an account, we'll need
+            //  to know if the email address is in use.
+            User.findOne({'local.email': email}, function(err, existingUser) {
+                
+                console.log("Este es el email!!!!: "+ email)
+                // if there are any errors, return the error
+                if (err)
+                    return done(err);
+
+                // check to see if there's already a user with that email
+                if (existingUser) 
+                    return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
+
+                //  We're not logged in, so we're creating a brand new user.
+                else {
+                    // create the user
+                    var newUser            = new User();
+                    if(req.body.password === req.body.password2){
+                        newUser.local.email    = email;
+                        newUser.local.password = newUser.generateHash(password);
+                        newUser.local.username = req.body.username;
+                        newUser.local.name     = req.body.nombre;
+                        newUser.local.edad     = req.body.edad;
+                        
+                        newUser.save(function(err) {
+                            if (err)
+                                throw err;
+    
+                            return done(null, newUser);
+                        });
+                    }
+                    else{
+                        return done(null, false, req.flash('signupMessage', 'La contraseña no es la misma'));
+                    }
+                }
+
+            });
+        });
+
+    }));
 
     
     

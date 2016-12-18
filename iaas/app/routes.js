@@ -81,7 +81,11 @@ var usuario_global;
 			failureFlash : true // allow flash messages
 		}));
 		
-		
+		app.post('/signup-admin', passport.authenticate('local-signup-admin', {
+			successRedirect : '/admin', // redirect to the secure profile section
+			failureRedirect : '/error', // redirect back to the signup page if there is an error
+			failureFlash : true // allow flash messages
+		}));
 	
 
 
