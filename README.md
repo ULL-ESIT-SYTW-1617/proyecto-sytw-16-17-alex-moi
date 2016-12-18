@@ -113,9 +113,9 @@ Podrá disponer de un servicio web donde se puede:
  2. Acceder al **book** de la aplicación 
  3. Descargar el book en pdf 
  4. En el caso de ser administrador también se permite:
-   4.1. Añadir/borrar cuentas de usuario
-   4.2 Establecer permisos de administrador a un usuario 
-   4.3 Eliminar dichos privilegios de un usuario que los posea.
+ ··* Añadir/borrar cuentas de usuario
+ ··* Establecer permisos de administrador a un usuario
+ ··* Eliminar dichos privilegios de un usuario que los posea.
 
 En la base de datos se encuentra creada una cuenta con el siguiente email: **admin@gmail.com**, que es el admin de la aplicación. Es **IMPORTANTE** que entré en la cuenta de este usuario con ese email y password: admin y modifique la password del mismo dado que sino cualquier usuario podrá acceder a ella como admin y manipularla a su antojo.
 
