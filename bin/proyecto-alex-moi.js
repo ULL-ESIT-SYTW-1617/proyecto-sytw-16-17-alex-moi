@@ -2,6 +2,7 @@
 
 var argv = require('minimist')(process.argv.slice(2));
 var fs = require('fs-extended');
+var fs2= require('fs-extra')
 var ejs = require("ejs");
 var path = require("path");
 var child = require("child_process");
@@ -114,8 +115,8 @@ function crear_estructura(dir, serv){
     
     if( serv == 2 )       //COPIA FICHEROS DESPLIEGUE HEROKU
     {  
-      
-      fs.copyDir(path.join(__dirname, '..', 'heroku'), path.join(process.cwd(), dir , 'heroku'), function (err) {
+
+      fs2.copy(path.join(__dirname, '..', 'heroku'), path.join(process.cwd(), dir , 'heroku'), function (err) {
       	if (err)
           console.error(err)
     	});
@@ -257,134 +258,3 @@ else{
 module.exports = {
   deploy_iaas
 }
-
-/*
-else{
-  
-  
-  if(!name && !repo_url && !directorio && !ip_iaas && !path_iaas && !deploy && !help)
-    return console.log("Debe especificar -c para generar la estructura o -d para realizar el despliegue si ya esta creada la estructura")
-    
-  if(directorio)
-  {
-    var existe
-    fs.existsSync(path.join(process.cwd(), directorio)) ? existe=true : existe=false;
-    console.log(path.join(process.cwd(), directorio))
-    
-    
-      var nombre_dir;
-      if(!existe) 
-      {
-          nombre_dir = directorio
-    
-          if(!deploy)
-            crear_estructura(nombre_dir);
-          else
-            return console.log("No es posible hacer un deploy sin antes generar la estructura de directorios")
-      }
-      else
-        console.log("Ya esta creada")
-  }
-  
-  if(!directorio)
-  {
-    if(deploy)
-    {
-      var carpeta;
-      prompt.start();
-      prompt.get([
-        { name: 'carpeta', required: true, description: "Introduzca el nombre de la carpeta en la que esta el GitBook" }, 
-        ], function (err, result) {
-            if(err)
-                return err;
-            carpeta = result.carpeta
-            var pwd = process.cwd().split("/");
-      
-      
-            if( pwd[pwd.length-1] == carpeta ) 
-            {  
-              if( Array.isArray( deploy ) == false)
-              {
-                
-                switch (deploy) {
-                  case 'iaas-ull-es':
-                        desplegar(nombre_dir, 'iaas-ull-es');   
-                      break;
-                      
-                  case 'heroku':
-                      desplegar(nombre_dir, 'heroku')  
-                      break;
-                      
-                  case 'heroku-token':
-                      desplegar(nombre_dir, 'heroku-token')   
-                      break;
-                  
-                  case 'heroku-token-oauth':
-                      desplegar(nombre_dir, 'heroku-token-oauth')   
-                      break;
-                  
-                  case 'heroku-localstrategy':
-                      desplegar(nombre_dir, 'heroku-localstrategy')   
-                      break;
-                  
-                  case 'iaas-bbdd':
-                      desplegar(nombre_dir, 'iaas-bbdd')   
-                      break;
-                      
-                  case 'github':
-                      desplegar(nombre_dir, 'github') 
-                      break;
-                  
-                  case 'https':
-                      desplegar(nombre_dir, 'https') 
-                      break;
-                      
-                  default:
-                    console.log("La opcion " + deploy + " no es valida");
-                }
-              }
-              
-              else if( Array.isArray( deploy ) == true)
-              {
-                  //OPCION 5: deploy en mas de un servicio
-                  var leng = deploy.length
-          
-                  if(leng >1){
-                    
-                    //Comprobar que los valores del array son los correctos
-                    var valido=true;
-                    for (var i=0; i<leng;i++){
-                      if(deploy[i]!='iaas-ull-es' && deploy[i]!='heroku' && deploy[i]!='github' ){
-                              console.log("Al menos uno de los argumentos pasados es incorrecto revise la documentacion")
-                              valido=false;
-                      }
-                    }
-                    
-                    //Desplegar si se han introducido diferentes despliegues
-                    var array=[]
-                    if(valido == true)
-                      for (var i = 0; i < leng; i++) {
-                          if( !(deploy[i] in array ) ){
-                              array.push(deploy[i])
-                              array[deploy[i]]++;
-                              desplegar(nombre_dir, deploy[i])
-                          }
-                          else
-                          {
-                              console.log("Error se han introducido despliegues repetidos")
-                          }
-                      }
-                  }
-              }
-            }
-            else
-            {
-              return console.log("No puede hacer un despliegue fuera de la carpeta del book")
-            }
-            
-        });
-    }
-    else
-      return console.log("Se debe especificar el deploy -d sin la opcion -c")
-  }
-}*/
