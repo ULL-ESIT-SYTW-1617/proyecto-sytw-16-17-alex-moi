@@ -27,7 +27,7 @@
                 </div>
             </nav>
             
-            <div class="contenedor col s12 m6 l6">
+            <div class="contenedorhome col s12 m6 l6">
                 <h4> Hola 
     			  	<% if (user) { %>
     					<%= user.name %>
@@ -38,25 +38,37 @@
                 <p>¿Qué quieres hacer?</p>
                 <p>Recuerda que puedes acceder al book, cambiar tu contraseña, o cerrar la sesión</p>
                 
-               <div class="row">
-                <a class="btn waves-effect waves-light #00c853 green accent-4"  type="submit" name="action" href= "/respuesta">Acceso al Book
-                    <i class="material-icons right"></i>
-                </a>
-                <% if (user) { %>
-    				<a class="btn waves-effect waves-light #2196f3 blue" type="submit" name="action" href= "/modificacion">Modicar Datos
+                <div class="row">
+                    <a class="btn waves-effect waves-light #00c853 green accent-4"  type="submit" name="action" href= "/respuesta">Acceso al Book
                         <i class="material-icons right"></i>
                     </a>
-    					
-    			<% } %>
-    			<a class="btn waves-effect waves-light #f44336 red" type="submit" name="action" id="button_download" href= "/descargar">Descargar Gitbook
-                    <i class="material-icons right"></i>
-                </a>
-                <!--<a class="btn waves-effect waves-light #2196f3 blue" type="submit" name="action" href= "/modificacion">Modicar Datos
-                    <i class="material-icons right"></i>
-                </a> -->
-                <a class="btn waves-effect waves-light #f44336 red" type="submit" name="action" href= "/salir">Cerrar Sesión
-                    <i class="material-icons right"></i>
-                </a>
+        			<a class="btn waves-effect waves-light #2196f3 blue" type="submit" name="action" href= "/modificacion">Modicar Datos
+                        <i class="material-icons right"></i>
+                    </a>
+        			<a class="btn waves-effect waves-light #f44336 red" type="submit" name="action" id="button_download" href= "/descargar">Descargar Gitbook
+                        <i class="material-icons right"></i>
+                    </a>
+                </div>
+                <div class="row">
+                    <% if (user.admin==1) { %>
+                        <div class="col s6">
+                            <a class="btn waves-effect waves-light #2196f3 red" type="submit" name="action" href= "/administrar">Entrar como admin
+                                <i class="material-icons right"></i>
+                            </a>
+                        </div>
+                        <div class="col s6">
+                            <a class="btn waves-effect waves-light #f44336 red" type="submit" name="action" href= "/salir">Cerrar Sesión
+                                <i class="material-icons right"></i>
+                            </a>
+                        </div>
+                    <% } %>
+                    <% if (user.admin==0) { %>
+                        <div class="col s12 center-align">
+                            <a class="btn waves-effect waves-light #f44336 red" type="submit" name="action" href= "/salir">Cerrar Sesión
+                                <i class="material-icons right"></i>
+                            </a>
+                        </div>
+                    <% } %>
                 </div>
             </div>
          

@@ -5,11 +5,8 @@ var path	= require('path');
 var bcrypt	= require("bcrypt-nodejs")
 var models	= require('./models/models.js');
 var fs		= require('fs');
-/*var jsPDF	= require("node-jspdf");*/
-var HTMLToPDF = require ('html5-to-pdf');
-var pdf = require('html-pdf');
-var htmlToPdf = require('html-to-pdf');
-	
+var pdf = require('pdfcrowd');
+
 // normal routes ===============================================================
 
 	// show the home page (will also have our login links)
@@ -33,12 +30,6 @@ var htmlToPdf = require('html-to-pdf');
 		app.get('/gh-pages',express.static('gh-pages'))
 		res.sendFile(path.join(__dirname, '..','gh-pages', 'index.html'));
     });
-    
-    
-	app.get('/invitado', (req, res) => {
-		app.get('/gh-pages',express.static('gh-pages'))
-		res.sendFile(path.join(__dirname, '..','gh-pages', 'index.html'));
-	})
     
     app.get('/error',
         function(req, res) {
@@ -64,17 +55,35 @@ var htmlToPdf = require('html-to-pdf');
 			models.User.find({where: {email: req.body.email}})
 			.then((usuario) =>
 			{
-				var pass = req.body.password;
-				var hash = usuario.password;
-				var iguales = bcrypt.compareSync(pass, hash);
-				console.log("hash: "+hash);
-				console.log("pass: "+pass);
-				console.log("iguales: "+ iguales);
-				
-				if (usuario && iguales)
-				    res.render('home',{user: usuario});
+				if(usuario){
+					var pass = req.body.password;
+					var hash = usuario.password;
+					
+					if(usuario.password === 'admin'){						//por si eres el usuario con contraseña admin sin encriptar osea el que crea la app
+						if(usuario.name === 'admin' && usuario.admin==1){	//para comprobar que efectivamente es el usuario admin
+							if (usuario.password == pass)
+							    res.render('home',{user: usuario});
+							else
+								res.render('error', { error: 'No coinciden las contraseñas. Vuelva a intentarlo' });
+						}
+						else{
+							res.render('error', { error: 'Los credenciales no coinciden. ¿Eres el usuario admin?' });	
+						}
+					}
+					else{
+						var iguales = bcrypt.compareSync(pass, hash);
+						console.log("hash: "+hash);
+						console.log("pass: "+pass);
+						console.log("iguales: "+ iguales);
+						
+						if (usuario && iguales)
+						    res.render('home',{user: usuario});
+						else
+							res.render('error', { error: 'No coinciden las contraseñas. Vuelva a intentarlo' });
+					}	
+				}
 				else 
-				  res.render('login', { message: req.flash('loginMessage') });
+				  res.render('error', { error: 'El usuario indicado no existe. Vuelva a intentarlo' });
 			});
 		});
 
@@ -96,7 +105,11 @@ var htmlToPdf = require('html-to-pdf');
 				if (user) 
 				    return (user);
 				else 
-				  return (null);
+				{
+				console.log("Entra")
+				return (null);	
+				}
+				  
 			});
 			
 			// Si no existe registrarlo!
@@ -114,15 +127,15 @@ var htmlToPdf = require('html-to-pdf');
 				console.log(user)
 				res.render('home',{user: user});
 			})
-			.catch((err)=>
+			/*.catch((err)=>
 			    {
 			      if(err)
 					{
 					console.log("Err:" + err);
 					err = "No se ha creado el usuario: "+ err ;
-					res.redirect('/error');
+					res.render('error',{error: err});
 					}
-			});
+			})*/;
 		});
 
 
@@ -152,67 +165,8 @@ var htmlToPdf = require('html-to-pdf');
 		}));
 
 
-
 // =============================================================================
-// AUTHORIZE (ALREADY LOGGED IN / CONNECTING OTHER SOCIAL ACCOUNT) =============
-// =============================================================================
-	
-	// locally --------------------------------
-		app.get('/connect/local', function(req, res) {
-			res.render('connect-local.ejs', { message: req.flash('loginMessage') });
-		});
-		app.post('/connect/local', passport.authenticate('local', {
-			successRedirect : '/home', // redirect to the secure profile section
-			failureRedirect : '/connect/local', // redirect back to the signup page if there is an error
-			failureFlash : true // allow flash messages
-		}));
-
-
-
-	// google ---------------------------------
-
-		// send to google to do the authentication
-		app.get('/connect/google', passport.authorize('google', { scope : ['profile', 'email'] }));
-
-		// the callback after google has authorized the user
-		app.get('/connect/google/callback',
-			passport.authorize('google', {
-				successRedirect : '/profile',
-				failureRedirect : '/fail'
-		}));
-
-
-
-// =============================================================================
-// UNLINK ACCOUNTS =============================================================
-// =============================================================================
-// used to unlink accounts. for social accounts, just remove the token
-// for local account, remove email and password
-// user account will stay active in case they want to reconnect in the future
-
-	// local -----------------------------------
-	/*app.get('/unlink/local', function(req, res) {
-		var user            = req.user;
-		user.local.email    = undefined;
-		user.local.password = undefined;
-		user.save(function(err) {
-			res.redirect('/home');
-		});
-	});*/
-	
-	// google ---------------------------------
-	app.get('/unlink/google', function(req, res) {
-		var user          = req.user;
-		user.google.token = undefined;
-		user.save(function(err) {
-			res.redirect('/profile');
-		});
-	});
-	
-
-
-// =============================================================================
-// MODIFICACION FICHEROS DROPBOX ===============================================
+// MODIFICACION BASE DE DATOS ==================================================
 // =============================================================================
 
 	app.get('/modificacion', (req,res) =>{
@@ -221,46 +175,58 @@ var htmlToPdf = require('html-to-pdf');
 	
 	app.get('/modificacion/password', function(req,res){
 		models.User.find({where: {email: req.query.email}})
-			.then((user) =>
+			.then((usuario) =>
 			{
-				if (user) {
-
+				
+				if(usuario){
 					var pass = req.query.pass;
-					var hash = user.password;
-					var iguales = bcrypt.compareSync(pass, hash);
-					console.log("\nUser: "+user.password)
-					console.log("\niguales: "+ iguales)
-					console.log("\n\n")
+					var hash = usuario.password;
 					
-					if(iguales){
-				    	user.updateAttributes({
-				          password: req.query.pass2
-				    	})
-				        
-				    res.redirect('/login');
+					if(usuario.password === 'admin'){						//por si eres el usuario con contraseña admin sin encriptar osea el que crea la app
+						if(usuario.name === 'admin' && usuario.admin==1){		//para comprobar que efectivamente es el usuario admin
+							if (usuario.password == pass){
+								usuario.updateAttributes({
+						          password: req.query.pass2
+						    	})
+						    	res.redirect('/login');
+							}
+							else
+								res.render('error', { error: 'No coinciden las contraseñas. Vuelva a intentarlo' });
+						}
+						else{
+							res.render('error', { error: 'Los credenciales no coinciden. ¿Eres el usuario admin?' });	
+						}
 					}
+					else{
+						var iguales = bcrypt.compareSync(pass, hash);
+						console.log("hash: "+hash);
+						console.log("pass: "+pass);
+						console.log("iguales: "+ iguales);
+						
+						if (usuario && iguales){
+					    	usuario.updateAttributes({
+					          password: req.query.pass2
+					    	})
+					    	
+					    	res.redirect('/login');
+						}
+						else
+							res.render('error', { error: 'No coinciden las contraseñas. Vuelva a intentarlo' });
+					}	
 				}
 				else 
-				  return (null);
+				  res.render('error', { error: 'El usuario indicado no existe. Vuelva a intentarlo' });
 		});
 	
 	});
 
 
 	app.get('/administrar', (req,res) =>{
-	/*	models.User.find({where: {email: req.query.email}})
-			.then((user) =>
-			{	
-				if (user && user.admin==1) {
-					res.render('administrador');
-				}
-				else 
-				  return (null);
-			});*/
 		res.render('administrador',{user: req.user});
 	})
 
 	app.get('/administrar/return', (req,res) =>{
+		
 		models.User.find({where: {email: req.query.email}})
 			.then((user) =>
 			{	
@@ -275,56 +241,86 @@ var htmlToPdf = require('html-to-pdf');
 					    res.redirect('/login');
 						
 					}
-					else if(req.query.ad){				// si se seleccion convertir en admin
+					else if(req.query.ad){					// si se seleccion convertir en admin
 					    user.updateAttributes({
 					    	admin : 1
 					    });
-					    res.redirect('/login');
+					    res.redirect('/administrar');
+					    
 					}
+					else if(req.query.delad){				// si se seleccion quitar posibilidad de administrar usuarios
+					    user.updateAttributes({
+					    	admin : 0
+					    });
+					    res.redirect('/login');				//redireccionamos a login por si el usuario al que se le quitan los privilegios es el propio usuario que ejecuta la accion
+					}										//aunque este caso no deberia darse dado que parece absurdo, mejor prevenir =).
+					else
+						return (null);
 				}
-				else 
-				  return (null);
+				else {
+					
+					if(req.query.add){					// si se selecciona la opcion añadir usuario nuevo
+						var bol;
+						if(req.query.si)
+							bol = 1;
+						else
+							bol = 0;
+						
+						console.log("Entrar entra")
+						console.log("Admin? "+ bol)
+						models.User.create(
+						{
+							name:		req.query.nombre,
+						    username:	req.query.username,
+						    email:		req.query.email,
+						    password:	req.query.password,
+						    edad:		req.query.edad,
+						    auth:		0,
+						    admin:		bol
+						    
+						}).then((user)=> {
+							console.log(user);
+							res.redirect('/administrar');
+						});
+					}	
+					
+					res.redirect('/administrar');
+				}
 			});
-	})
-
+	});
+	
 
 	app.get('/descargar', (req,res) =>{
-		fs.readFile( path.join(__dirname, '..','gh-pages','index.html'), (err, data) => {
-			if (err) throw err;
-			
-			var PDFKit = require('pdfkitjs');
-			 
-			new PDFKit('file', './../gh-pages/index.html')
-			 
-			pdf.toFile('./../gh-pages/gitbook.pdf', function (err, file) {
-			  console.log('File ' + file + ' written');
-			});
-			  /*
-			res.download(path.join(__dirname, '..','gh-pages','gitbook.pdf'), function(err){
-				if (err) {
-					console.log("ERROR: "+err)
-					res.redirect('/error')
-				} else {
-					res.redirect('/home');
-				}
-			});
-			  */
-			
-			/*var htmlToPDF = new HTMLToPDF {
-			  inputPath: path.join(__dirname, '..','gh-pages','index.html'),
-			  outputPath: path.join(__dirname, '..','gh-pages','gitbook.pdf'),
-			}
-			 
-			htmlToPDF.build (error) =>
-			  throw error if error?*/
-				
-			//descargar
-
-			
-
-		});
+		var bool;
+		fs.existsSync(path.join(__dirname,'..','gh-pages','index.html')) ? bool=true : bool=false 
 		
-
+		if(bool){
+			var saveToFile = function(fname) {
+			    return {
+			        pdf: function(rstream) { 
+			            var wstream = fs.createWriteStream(fname);
+			            rstream.pipe(wstream);
+			        },
+			        error: function(errMessage, statusCode) { console.log("ERROR: " + errMessage); },
+			        end: function() { 
+			        	res.download(path.join(__dirname, '..','gitbook.pdf'), function(err){
+						if (err) {
+							console.log("ERROR: "+err)
+							res.redirect('/error')
+						} else {
+							res.render('home',{user: req.user});
+						}
+						});
+			        },
+			    };
+			}
+			
+			var client = new pdf.Pdfcrowd("alu0100782851", "4d6fa69e599df42d747d8ca9e0157457");
+			client.convertFile('./gh-pages/index.html', saveToFile('gitbook.pdf'));
+		}
+		else{
+			res.render('error',{error: 'No existe el fichero html'});	
+		}
 	})
 
 

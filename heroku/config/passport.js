@@ -127,8 +127,6 @@ module.exports = function(passport) {
 	    	    })
                 return done(null, user);
             }
-        
-          //return done(null, profile);
         });
       }
     ));
@@ -202,25 +200,6 @@ module.exports = function(passport) {
     	    console.log("User new: "+user[0])
             return done(null, user);
         }
-        
-        /*
-        Model.User.find({email: profile.email}, function(err, user) {
-            if(err) throw(err);
-            
-            if(!err && user) return done(null, user);
-
-                Model.User.create(
-    			{
-    				id:		profile.id,
-    			    name :  profile.displayName
-    			    
-    			}).then((user)=> {
-    				console.log("User new: "+user[0])
-    				return done(null, user);
-    			})
-                            
-        });*/
-        
       
     }));
     

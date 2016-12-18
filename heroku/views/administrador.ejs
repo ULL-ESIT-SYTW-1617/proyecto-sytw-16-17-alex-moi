@@ -29,9 +29,9 @@
                 </div>
             </nav>
             
-            <div class="contenedor2 col s12 m6 l6">
-                <h4> Administracion de Usuarios</h4> 
-                <p>En este apartado podrá añadir, eliminar o modificar propiedades de usuarios</p>
+            <div class="contenedor2 col s12 m6 l6" id="idcontenedor2">
+                <h4> Administración de Usuarios</h4> 
+                <p>En este apartado podrá añadir o eliminar usuarios.Además podrá añadir a mas usuarios como administradores. Seleccione solo una de las opciones siguientes</p>
                 <div class="row">
                     <form class="col s12" action="/administrar/return" method="GET">
                         <div class="row">
@@ -41,20 +41,78 @@
                                 <label for="email">Email</label>
                             </div>
                             <div class="col s6">
-                                <p>
-                                    <input name="del" type="radio" id="test1" />
-                                    <label for="test1">Eliminar Usuario</label>
-                                </p>
-                                <p>
-                                    <input name="ad" type="radio" id="test2" />
-                                    <label for="test2">Convertir en admin</label>
-                                </p>   
+                                <div class="col s6">
+                                    <p>
+                                        <input name="del" type="radio" id="test1" />
+                                        <label for="test1">Borrar Usuario</label>
+                                    </p>
+                                    <p>
+                                        <input name="ad" type="radio" id="test2" />
+                                        <label for="test2">Convertir en admin</label>
+                                    </p>
+                                </div>
+                                <div class="col s6">
+                                    <p>
+                                        <input name="add" type="radio" id="test3" />
+                                        <label for="test3">Añadir Usuario</label>
+                                    </p>
+                                    <p>
+                                        <input name="delad" type="radio" id="test4" />
+                                        <label for="test4">Quitar privilegios</label>
+                                    </p>   
+                                </div>
                             </div>
                         </div>
+                        <div class="row visible" id="vis">
+                            <div class="col s9">
+                                <div class="row">
+                                   <div class="input-field col s6">
+                                        <input class="form-control white-text" id="nombre1" type="text" class="validate" name="nombre">
+                                        <label class ="white-text" for="nombre1 ">Nombre y Apellidos</label>
+                                    </div>
+                                    <div class="input-field col s6">
+                                        <input class="form-control white-text" id="username1" type="text" class="validate" name="username">
+                                        <label  class ="white-text" for="username1">Usuario</label>
+                                    </div> 
+                                </div>
+                                <div class="row">
+                                    <div class="input-field col s6">
+                                        <input id="password1" class="form-control white-text" type="password" class="validate" name="password">
+                                        <label class ="white-text" for="password">Contraseña</label>
+                                    </div>
+                                    <div class="input-field col s6">
+                                        <input class="form-control white-text" id="edad1" type="number" min="18" class="validate" name="edad">
+                                        <label class ="white-text" for="edad">Edad</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col s3">
+                                <div class="row">
+                                    <p>¿Privilegios?</p>
+                                </div>
+                                <div class="row">
+                                    <p>
+                                        <input name="si" type="radio" id="test5" />
+                                        <label for="test5">Si</label>
+                                    </p>
+                                </div> 
+                                <div class="row">
+                                    <p>
+                                        <input name="no" type="radio" id="test6" />
+                                        <label for="test6">No</label>
+                                    </p>
+                                </div>   
+                            </div>
+                        </div>
+
+                        
                         <div class="row">
                             <input class="btn waves-effect waves-light #00c853 green accent-4"  type="submit" name="action" value="Ejecutar">
                                 <i class="material-icons right"></i>
                             </input>
+                            <a class="btn waves-effect waves-light #00c853 red accent-4" type="submit" name="action" href= "/salir">Salir
+                                <i class="material-icons right"></i>
+                            </a>
                        </div>
                     </form>
                 </div>
@@ -87,5 +145,6 @@
         <script src="https://code.jquery.com/jquery.min.js"></script>
         <script type="text/javascript" scr="https://code.jquery.com/jquery-2.1.1.min.js"></script>
         <script type="text/javascript" src="assets/materialize/js/materialize.min.js"></script>
+        <script type="text/javascript" src="assets/materialize/js/index.js"></script>
     </body>
 </html>
