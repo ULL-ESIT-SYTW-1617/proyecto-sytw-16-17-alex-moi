@@ -4,6 +4,21 @@ revisar las vistas y los enlaces a las mismas etc etc
 
 revisar routes
 
+anotaciones:
+    auth = 0 -- local
+    auth = 1 -- google
+    auth = 2 -- facebook
+    
+    
+    admin = 0 -- No eres admin
+    admin = 1 -- Eres admin
+
+
+    INSERT INTO USER ( name, username , edad , email, password, admin, auth, createdAt, updatedAt)
+    VALUES ( 'admin', 'root', 18, 'pepe@gmail.com','admin',1,0, '0000-00-00 00:00:00.000 +00:00', '0000-00-00 00:00:00.000 +00:00');
+
+
+
 GOOGLE:
     seguir tutorial dsi, copiar id, secret y callback en auth.js y luego descargar json que tienes en la pagina de google y meterlo en nuestro directorio. Luego subir todo a heroku
     

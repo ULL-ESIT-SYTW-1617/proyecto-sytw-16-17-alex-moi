@@ -88,7 +88,9 @@ module.exports = function(passport) {
                             user.updateAttributes({
                                 token   : token,
                                 name    : profile.displayName,
-                                email   : profile.emails[0].value // pull the first email
+                                email   : profile.emails[0].value, // pull the first email
+                                auth    :   1
+                                
 				    	    })
                         }
 				    	return done(null, user);
@@ -97,10 +99,12 @@ module.exports = function(passport) {
                     {
                         Model.User.create(
             			{
-            				id:		profile.id,
-            			    token:	token,
-            			    email:	profile.emails[0].value,
-            			    name:	profile.displayName
+            				id      :   profile.id,
+            			    token   :	token,
+            			    email   :	profile.emails[0].value,
+            			    name    :   profile.displayName,
+            			    admin   :   0,
+            			    auth    :   1
             			    
             			}).then((user)=> {
             				console.log("User new: "+user)
@@ -118,7 +122,8 @@ module.exports = function(passport) {
                     id    : profile.id,
                     token : token,
                     name  : profile.displayName,
-                    email : profile.emails[0].value // pull the first email
+                    email : profile.emails[0].value, // pull the first email
+                    auth  : 1
 	    	    })
                 return done(null, user);
             }
@@ -157,7 +162,8 @@ module.exports = function(passport) {
                         user.updateAttributes({
                             token   : token,
                             name    : profile.displayName,
-                            email   : profile.emails[0].value // pull the first email
+                            email   : profile.emails[0].value, // pull the first email
+                            auth    : 2
 			    	    })
                     }
                     console.log("User new: "+user)
@@ -170,7 +176,9 @@ module.exports = function(passport) {
         				id:		profile.id,
         			    token:	token,
         			    email:	profile.emails[0].value,
-        			    name:	profile.displayName
+        			    name:	profile.displayName,
+                        auth    : 2,
+                        admin   : 0
         			    
         			}).then((user)=> {
         				console.log("User new: "+user[0])
@@ -188,13 +196,14 @@ module.exports = function(passport) {
                 id    : profile.id,
                 token : token,
                 name  : profile.displayName,
-                email : profile.emails[0].value // pull the first email
+                email : profile.emails[0].value, // pull the first email
+                auth  : 2
     	    })
     	    console.log("User new: "+user[0])
             return done(null, user);
         }
         
-        
+        /*
         Model.User.find({email: profile.email}, function(err, user) {
             if(err) throw(err);
             
@@ -210,7 +219,7 @@ module.exports = function(passport) {
     				return done(null, user);
     			})
                             
-        });
+        });*/
         
       
     }));

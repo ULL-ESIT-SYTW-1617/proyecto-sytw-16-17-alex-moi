@@ -5,8 +5,11 @@ var path	= require('path');
 var bcrypt	= require("bcrypt-nodejs")
 var models	= require('./models/models.js');
 var fs		= require('fs');
-var jsPDF	= require("node-jspdf");
-
+/*var jsPDF	= require("node-jspdf");*/
+var HTMLToPDF = require ('html5-to-pdf');
+var pdf = require('html-pdf');
+var htmlToPdf = require('html-to-pdf');
+	
 // normal routes ===============================================================
 
 	// show the home page (will also have our login links)
@@ -103,7 +106,9 @@ var jsPDF	= require("node-jspdf");
 			    username:	req.query.username,
 			    email:		req.query.email,
 			    password:	req.query.password,
-			    edad:		req.query.edad
+			    edad:		req.query.edad,
+			    auth:		0,
+			    admin:		0
 			    
 			}).then((user)=> {
 				console.log(user)
@@ -242,28 +247,79 @@ var jsPDF	= require("node-jspdf");
 	});
 
 
+	app.get('/administrar', (req,res) =>{
+	/*	models.User.find({where: {email: req.query.email}})
+			.then((user) =>
+			{	
+				if (user && user.admin==1) {
+					res.render('administrador');
+				}
+				else 
+				  return (null);
+			});*/
+		res.render('administrador',{user: req.user});
+	})
+
+	app.get('/administrar/return', (req,res) =>{
+		models.User.find({where: {email: req.query.email}})
+			.then((user) =>
+			{	
+				if (user) {
+					if(req.query.del){					// si se selecciona la opcion eliminar usuario
+						
+						user.destroy({
+						    where: {
+						    	email: req.query.email   
+						    }
+						})
+					    res.redirect('/login');
+						
+					}
+					else if(req.query.ad){				// si se seleccion convertir en admin
+					    user.updateAttributes({
+					    	admin : 1
+					    });
+					    res.redirect('/login');
+					}
+				}
+				else 
+				  return (null);
+			});
+	})
+
+
 	app.get('/descargar', (req,res) =>{
 		fs.readFile( path.join(__dirname, '..','gh-pages','index.html'), (err, data) => {
 			if (err) throw err;
 			
-			console.log(data);
-			//transforma a pdf
-			var doc = new jsPDF();          
-
-			doc.text(20, 20, "pepe");
-			
-			doc.save('gitbook.pdf');
-			//});
-			
-			//descargar
-			res.download(path.join(__dirname, '..','gitbook.pdf'), function(err){
+			var PDFKit = require('pdfkitjs');
+			 
+			new PDFKit('file', './../gh-pages/index.html')
+			 
+			pdf.toFile('./../gh-pages/gitbook.pdf', function (err, file) {
+			  console.log('File ' + file + ' written');
+			});
+			  /*
+			res.download(path.join(__dirname, '..','gh-pages','gitbook.pdf'), function(err){
 				if (err) {
-					console.log(err)
+					console.log("ERROR: "+err)
 					res.redirect('/error')
 				} else {
 					res.redirect('/home');
 				}
 			});
+			  */
+			
+			/*var htmlToPDF = new HTMLToPDF {
+			  inputPath: path.join(__dirname, '..','gh-pages','index.html'),
+			  outputPath: path.join(__dirname, '..','gh-pages','gitbook.pdf'),
+			}
+			 
+			htmlToPDF.build (error) =>
+			  throw error if error?*/
+				
+			//descargar
+
 			
 
 		});

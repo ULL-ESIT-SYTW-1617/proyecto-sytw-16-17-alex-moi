@@ -19,6 +19,12 @@ module.exports = function(sequelize, DataTypes) {
             edad: {
                 type: DataTypes.INTEGER
             },
+            auth:{
+                type: DataTypes.INTEGER
+            },
+            admin: {
+                type: DataTypes.INTEGER
+            },
             email: { //Clave primaria
                 type: Sequelize.STRING,
                 unique: true,
