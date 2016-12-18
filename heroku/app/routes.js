@@ -14,7 +14,7 @@ var pdf = require('pdfcrowd');
 		res.render('index');
 	});
 	
-	app.get('/home', function(req, res) {
+	app.get('/home', isLoggedIn,function(req, res) {
 		res.render('home',{user: req.user});
 	});
 
@@ -97,45 +97,42 @@ var pdf = require('pdfcrowd');
 		// signup user
 		app.get('/signuppost',  function(req, res)
 		{
+			var boole = false;
 			// Comprobar si el usuario ya existe!
 			console.log(req.query.email)
 			models.User.find({where: {email: req.query.email}})
 			.then((user) =>
 			{
-				if (user) 
-				    return (user);
+				if (user) {
+					boole = true;
+				    //return (user);
+				    console.log(user)
+				    res.render('error',{error: 'El email ya está cogido'})
+				}
 				else 
 				{
-				console.log("Entra")
-				return (null);	
+					console.log(user)
+					res.render('error',{error: 'El username ya está cogido'})
 				}
 				  
 			});
 			
-			// Si no existe registrarlo!
-			models.User.create(
-			{
-				name:		req.query.nombre,
-			    username:	req.query.username,
-			    email:		req.query.email,
-			    password:	req.query.password,
-			    edad:		req.query.edad,
-			    auth:		0,
-			    admin:		0
-			    
-			}).then((user)=> {
-				console.log(user)
-				res.render('home',{user: user});
-			})
-			/*.catch((err)=>
-			    {
-			      if(err)
-					{
-					console.log("Err:" + err);
-					err = "No se ha creado el usuario: "+ err ;
-					res.render('error',{error: err});
-					}
-			})*/;
+			if(boole ==false){			// Si no existe registrarlo!
+				models.User.create(
+				{
+					name:		req.query.nombre,
+				    username:	req.query.username,
+				    email:		req.query.email,
+				    password:	req.query.password,
+				    edad:		req.query.edad,
+				    auth:		0,
+				    admin:		0
+				    
+				}).then((user)=> {
+					console.log(user)
+					res.render('home',{user: user});
+				});
+			}
 		});
 
 
@@ -245,7 +242,7 @@ var pdf = require('pdfcrowd');
 					    user.updateAttributes({
 					    	admin : 1
 					    });
-					    res.redirect('/administrar');
+					    res.redirect('/login');
 					    
 					}
 					else if(req.query.delad){				// si se seleccion quitar posibilidad de administrar usuarios
@@ -280,11 +277,11 @@ var pdf = require('pdfcrowd');
 						    
 						}).then((user)=> {
 							console.log(user);
-							res.redirect('/administrar');
+							res.redirect('/login');
 						});
 					}	
 					
-					res.redirect('/administrar');
+					res.redirect('/login');
 				}
 			});
 	});

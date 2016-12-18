@@ -15,7 +15,6 @@ var loginin = require('connect-ensure-login').ensureLoggedIn;
 
 // Configure view engine to render EJS templates.
 app.set('view engine', 'ejs'); 
-//app.set("views", __dirname + '/views');
 
 
 app.use(logger('combined'));

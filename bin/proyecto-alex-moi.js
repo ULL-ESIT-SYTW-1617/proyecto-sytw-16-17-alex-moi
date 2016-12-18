@@ -9,6 +9,7 @@ var gitconfig = require('git-config');
 var prompt = require('prompt');
 var exec = require("ssh-exec");
 const GitUrlParse = require("git-url-parse");
+var child = require("child_process");
 
 //Variables para el package.json
 var author, email;
@@ -170,6 +171,18 @@ function deploy_iaas(ip, ruta, url) {
     
 }
 
+function deploy_heroku() {
+    console.log("Comenzando el deploy en HEROKU");
+
+    child.exec('git add .; git commit -m "subiendo a heroku"; git push heroku master;', function(error, stdout, stderr){
+        if(error)
+          console.log(error)
+        
+        console.log(stderr);
+        console.log(stdout);
+      });
+};
+
 
 if(help){
   console.log("\nAyuda proyecto-sytw-alex-moi:"
@@ -233,5 +246,6 @@ else{
 
 
 module.exports = {
-  deploy_iaas
+  deploy_iaas,
+  deploy_heroku
 }

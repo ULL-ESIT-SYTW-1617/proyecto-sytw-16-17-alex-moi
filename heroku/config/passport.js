@@ -31,7 +31,7 @@ module.exports = function(passport) {
     // LOCALLY =================================================================
     // =========================================================================
     passport.use(new LocalStrategy(
-        function(email, password, cb) {
+        function(email, password, done) {
             Model.User.find({where: {
                 email: email
             }})
@@ -39,18 +39,18 @@ module.exports = function(passport) {
                 if(user) {
                     if(bcrypt.compareSync(password, user.password))
                     {
-                      return cb(null,user);
+                      return done(null,user);
                     }
                     else
                     {
                       console.log("Oops! Wrong password.");
-                      return cb("Oops! Wrong password.",false);
+                      return done("Oops! Wrong password.",false);
                     }
                 }
                 else
                 {
                   console.log("No user found.");
-                  return cb("No user found.",false);
+                  return done("No user found.",false);
                 }
             });
         }

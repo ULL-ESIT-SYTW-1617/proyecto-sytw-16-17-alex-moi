@@ -23,7 +23,6 @@
             <nav>
                 <div class="nav-wrapper">
                     <a href="#!" class="brand-logo">GitBook</a>
-                    
                 </div>
             </nav>
             
@@ -42,9 +41,11 @@
                     <a class="btn waves-effect waves-light #00c853 green accent-4"  type="submit" name="action" href= "/respuesta">Acceso al Book
                         <i class="material-icons right"></i>
                     </a>
-        			<a class="btn waves-effect waves-light #2196f3 blue" type="submit" name="action" href= "/modificacion">Modicar Datos
-                        <i class="material-icons right"></i>
-                    </a>
+                    <% if (user.auth==0) { %>
+            			<a class="btn waves-effect waves-light #2196f3 blue" type="submit" name="action" href= "/modificacion">Modicar Datos
+                            <i class="material-icons right"></i>
+                        </a>
+                    <% } %>
         			<a class="btn waves-effect waves-light #f44336 red" type="submit" name="action" id="button_download" href= "/descargar">Descargar Gitbook
                         <i class="material-icons right"></i>
                     </a>
@@ -79,11 +80,11 @@
           <div class="container">
             <div class="row">
               <div class="col l6 m6 s12">
-                <h5 class="">GitBook desarrollado con</h5>
-                <p class="">Paquete npm gitbook-start-alex-moi-nitesh</p>
+                <h5 class="">Aplicacion desarrollada con</h5>
+                <p class="">Paquete npm proyecto-sytw-alex-moi</p>
               </div>
               <div class="col l4 offset-l2 m6 s12">
-                <h5 class="">Creadores del paquete</h5>
+                <h5 class="">Creadores de la aplicación</h5>
                 <ul>
                   <li><a class="nombres" href="#!">Moisés Yanes Carballo</a></li>
                   <li><a class="nombres" href="#!">Alexander Cole Mora</a></li>
@@ -97,39 +98,5 @@
         <script src="https://code.jquery.com/jquery.min.js"></script>
         <script type="text/javascript" scr="https://code.jquery.com/jquery-2.1.1.min.js"></script>
         <script type="text/javascript" src="assets/materialize/js/materialize.min.js"></script>
-        
-        <script>
-            var doc = new jsPDF();          
-            var elementHandler = {
-              '#ignorePDF': function (element, renderer) {
-                return true;
-              }
-            };
-            
-            $('#button_download').click(function () {
-              var source =  window.document.getElementsByTagName("body")[0];
-              doc.fromHTML(source, 15,15, {
-                    'width': 180,'elementHandlers': elementHandler
-              });
-            
-              doc.save('gitbook.pdf');
-            });
-        
-         /*window.fbAsyncInit = function() {
-            FB.init({
-              appId      : '960231667453847',
-              xfbml      : true,
-              version    : 'v2.8'
-            });
-          };
-        
-          (function(d, s, id){
-             var js, fjs = d.getElementsByTagName(s)[0];
-             if (d.getElementById(id)) {return;}
-             js = d.createElement(s); js.id = id;
-             js.src = "//connect.facebook.net/en_US/sdk.js";
-             fjs.parentNode.insertBefore(js, fjs);
-           }(document, 'script', 'facebook-jssdk'));*/
-        </script>
     </body>
 </html>

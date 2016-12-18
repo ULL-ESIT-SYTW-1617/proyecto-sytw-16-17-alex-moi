@@ -1,14 +1,14 @@
 module.exports = {
 
     'googleAuth' : {
-        'clientID'      : '572109298711-bb0l62ie9lnvf3asf48bns9o2sk42sv5.apps.googleusercontent.com',
-        'clientSecret'  : 'sriyEOEqyBI-Ok9t6uDwNEYP',
-        'callbackURL'   : 'https://proyectito.herokuapp.com/auth/google/callback'
+        'clientID'      : '572109298711-8a53aev03slufm91qu1vt0mq9gesm6o0.apps.googleusercontent.com',
+        'clientSecret'  : 'tBfP5mCUT_VQwz8FrfBLxMMI',
+        'callbackURL'   : 'https://proyecto-sytw-alex-moi.herokuapp.com/auth/google/callback'
     },
     'facebookAuth' : {
-        'clientID'      : '1182599968443234',
-        'clientSecret'  : '6abad1e49be4978ff4dacdbc25b447b7',
-        'callbackURL'   : 'http://sytw-alu0100782851.c9users.io:8080/auth/facebook/callback'
+        'clientID'      : '738599156289979',
+        'clientSecret'  : 'dc9450add8fce8194568503732d8a06f',
+        'callbackURL'   : 'https://proyecto-sytw-alex-moi.herokuapp.com/auth/facebook/callback'
     }
 
 };
