@@ -5,7 +5,6 @@ var fs = require('fs-extended');
 var fs2= require('fs-extra')
 var ejs = require("ejs");
 var path = require("path");
-var child = require("child_process");
 var gitconfig = require('git-config');
 var prompt = require('prompt');
 var exec = require("ssh-exec");
@@ -59,17 +58,17 @@ function crear_estructura(dir, serv){
       	if (err)
           console.error(err)
     	});
-
-      //copiamos gulpfile
-      fs.copyFile(path.join(__dirname,'..','gulpfile.js'), path.join(process.cwd(), dir , 'gulpfile.js'),function(err){
-        if(err)
-          console.log(err);
-      });
     
       //copiamos el book
       fs.copyFile(path.join(__dirname,'..','template','book.json'),path.join(process.cwd(), dir , 'book.json'),function(err){
         if(err)
         console.log(err);
+      });
+      
+      //copiamos gulpfile
+      fs.copyFile(path.join(__dirname,'..','gulpfile.js'), path.join(process.cwd(), dir , 'gulpfile.js'),function(err){
+        if(err)
+          console.log(err);
       });
       
      //copiamos .gitignore
@@ -82,6 +81,11 @@ function crear_estructura(dir, serv){
     if( serv == 1 )      //COPIA FICHEROS DESPLIEGUE IAAS 
     {
       
+      fs2.copy(path.join(__dirname, '..', 'iaas'), path.join(process.cwd(), dir), function (err) {
+      	if (err)
+          console.error(err)
+    	});
+      /*
       fs.copyDir(path.join(__dirname, '..', 'iaas','bbdd','app'), path.join(process.cwd(), dir , 'app'), function (err) {
       	if (err)
           console.error(err)
@@ -110,13 +114,13 @@ function crear_estructura(dir, serv){
     	fs.copyFileSync(path.join(__dirname, '..', 'iaas','bbdd','server.js'), path.join(process.cwd(), dir , 'server.js'), function (err) {
       	if (err)
           console.error(err)
-    	});
+    	});*/
     } 
     
     if( serv == 2 )       //COPIA FICHEROS DESPLIEGUE HEROKU
     {  
 
-      fs2.copy(path.join(__dirname, '..', 'heroku'), path.join(process.cwd(), dir , 'heroku'), function (err) {
+      fs2.copy(path.join(__dirname, '..', 'heroku'), path.join(process.cwd(), dir), function (err) {
       	if (err)
           console.error(err)
     	});
@@ -217,6 +221,8 @@ else{
     console.log("Version: "+ ver);
   }
   else{
+    if(!dir && !repo_url && !version && !help && !autor && !repo_url && !name )
+      return console.log("\nEspecifique alguna opcion")
     
     if(dir && !repo_url)
       return console.log("\nEs obligatorio que especifique las opciones -c y -u"
