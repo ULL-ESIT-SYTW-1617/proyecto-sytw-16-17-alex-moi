@@ -1,22 +1,21 @@
-# Sistemas y Tecnologías Web. Crear repositorio en github
+# Sistemas y Tecnologías Web. Proyecto Final
 
 ## Introducción
 
-El objetivo de esta práctica es extender el package NodeJS publicado en npm en una práctica anterior con una nueva funcionalidad que permita que los usuarios con conocimientos de NodeJS puedan extender la conducta del ejecutable para que este cree un repositorio en **GitHub**.
-
-Para ello, el plugin utilizado se puede encontrar en [gitbook-start-github-alex-moi](https://www.npmjs.com/package/gitbook-start-github-alex-moi).
+El proyecto final de la asignatura, consistirá en realizar un nuevo paquete. Con él, se conseguirá desplegar tanto en el Iaas como en Heroku, un book. Además
+se podrán registrar usuarios en el servicio web.
 
 ##Instalación
 
 ```shell
-npm install -g gitbook-start-alex-moi-nitesh
+npm install -g proyecto-sytw-alex-moi 
 ```
 
-##Tutorial para su ejecución
+## Tutorial para su ejecución
 
 Para ejecutar, ponemos el siguiente comando:
 
-`gitbook-start-alex-moi-nitesh [opciones]`
+`proyecto-alex-moi [opciones]`
 
 [opciones] serían:
 *    -a: Especificar el autor del gitbook
@@ -24,84 +23,91 @@ Para ejecutar, ponemos el siguiente comando:
 *    -c: Especificar el nombre del directorio donde crear el gitbook
 *    -u: Especificar la url del repositorio git
 *    -h: Help (ayuda)
-*    -d: Realizar un deploy a (IaaS, Heroku o Github)
+*    -v: Versión del paquete
+*    --ip: Especificar ip en caso de despliegue en Iaas
+*    --path: Especificar ruta en caso de despliegue en Iaas
 
-**Nota:** Primero debe crearse la estructura de directorios del gitbook con el argumento '-c' y luego, situado dentro del gitbook, realizar un deploy con el argumento '-d'. Ambos argumentos **NO** pueden ser ejecutados conjuntamente.
+A continuación explicaremos como podemos desplegar el paquete y que es necesario exactamente.
+
+## Paquete para el despligue en IAAS
+
+Lo primero es configurar las SSH Keys.
+
+#### SSH  keys
+Para conectarnos a la máquina del iaas, tenenmos que tener configurado la [vpn de la ULL](http://www.ull.es/stic/tag/vpn/), y poder configurar un alias para conectarnos más rápidamente por **ssh**.
+Para ello crearemos en `~/.ssh` un fichero `config` con el siguiente contenido:
+
+```
+Host sytw
+	HostName dir_ip_máquina
+	User usuario
+```
+
+Introduzca el siguiente comando `ssh-copy-id usuario@direccion-servidor-iaas`
+Con esto podremos conectarnos sin ningún problema a la máquina.
+También es necesario tener generado en la máquina del iaas las claves para utilizar repositorios Github. Puede encontrar la documentación apropiada [en este link](https://help.github.com/articles/generating-an-ssh-key/).
+
+#### Creación de la estructura
 
 Para crear la estructura de directorios del Gitbook ejecutamos:
 ```shell
-gitbook-start-alex-moi-nitesh -c Book
+gitbook-start-alex-moi-nitesh -c nombre_directorio -u https://github.com/usuario/ejemplo.git --ip 10.6.128.1 --path /home/usuario (sin '/' al final de la ruta)
 ```
-
-Una vez instalado y ejecutado, hacemos:
+Elija la **opcion 1**.
+Una vez instalado y ejecutado, en la carpeta que se ha creado hacemos:
 
 ```shell
 npm install
-gitbook install
+gulp build
+git init
+git remote add origin url(del repositorio que ha puesto en la opcion -u)
+git add .
+git commit -m "haciendo cambios"
+git push origin master
+gulp deploy-iaas
 ```
 
-Una vez completado los "ficheros.md" de nuestro GitBook, para construirlo y publicarlo en github (gh-pages) hacemos:
+Lo siguiente es acudir a nuestra máquina del IAAS y donde se ha creado la nueva carpeta ejecutar:
 
 ```shell
-gulp build
-gulp deploy
+npm install
+mongod --smallfiles
+node server.js (en otra terminal)
 ```
 
-Un ejemplo de la versión final del gitbook sería: [Ejemplo](https://alu0100782851.github.io/prueba/)
+Su servicio estrá desplegada en **http://ip:8080**
 
-##Funcionamiento del argumento "-d"
+#### Uso de la aplicación
 
-Este argumento se corresponde con la opción del deploy en el iaas, heroku o github y **sólo** puede ejecutarse para cada caso como se especifica a continuación.
+Podrá disponer de un servicio web donde se registren, muestren los datos del usuario, acceda al **book** o en el caso de ser administrador, borrar cuentas de usuario.
+Para esto último es importante que registre una cuenta con el siguiente email: **admin@admin.es**, puesto que es la única cuenta que tiene esa posibilidad. 
 
 
-**IaaS**
- : Para hacer el despliegue en el IaaS es necesario proporcionar dos argumentos mas que deben ser especificados obligatoriamente, ademas de los restantes de los que dispone el paquete.
 
- Por tanto, se ejecutaría el siguiente comando desde el directorio que contiene nuestro gitbook:
-`gitbook-start-alex-moi-nitesh -d iaas-ull-es [Obligatorias]`
 
- [Obligatorias] serían:
- ```
---iaas_ip: Especificar la IP del IaaS
-			Ejemplo: 10.2.1.128
---iaas_path: Especificar la PATH de IaaS(sin '/' al final de la ruta)
-			Ejemplo: /home/nombre_usuario/ruta
- ```
+## Paquete para el despligue en Heroku
 
-**Heroku**
- : Para hacer el despliegue en heroku bastará con especificar la opcion -d seguido de 'heroku'.
+Para crear la estructura de directorios del Gitbook ejecutamos:
+```shell
+gitbook-start-alex-moi-nitesh -c nombre_directorio -u https://github.com/usuario/ejemplo.git 
+```
+Elija la **opcion 2**.
 
- Por tanto, se ejecutaría el siguiente comando desde el directorio que contiene nuestro gitbook:
-`gitbook-start-alex-moi-nitesh -d heroku`
+
+
  
 
-**Github**
- : Para hacer el despliegue en Github bastará con especificar la opción -d seguido de 'github'.
-
- Por tanto, se ejecutaría el siguiente comando desde el directorio que contiene nuestro gitbook:
-`gitbook-start-alex-moi-nitesh -d github`
 
 
-## Versiones de paquetes a descargar para esta practica
-* Paquete principal: **v1.2.66**
-* Paquete IAAS: **v1.2.12**
-* Paquete Heroku-token: **v0.1.28**
-* Paquete Heroku-token-oauth: **v0.0.12**
-* Paquete Heroku-localstrategy **v0.0.24**
-* Paquete github: **v0.1.8**
-* Paquete https: **v0.0.8**
+
+## Versión del paquete
+* Este paquete está actualizado. Utilice la última versión
+
 
 ## Enlaces importantes
-*  [Página en NPM gitbook-start-alex-moi-nitesh](https://www.npmjs.com/package/gitbook-start-alex-moi-nitesh)
-*  [Página en NPM gitbook-start-iaas-ull-es-alex-moi Plugin](https://www.npmjs.com/package/gitbook-start-iaas-ull-es-alex-moi)
-*  [Página en NPM gitbook-start-heroku-alex-moi Plugin](https://www.npmjs.com/package/gitbook-start-heroku-alex-moi)
-*  [Página en NPM gitbook-start-heroku-token-alex-moi Plugin](https://www.npmjs.com/package/gitbook-start-heroku-token-alex-moi)
-*  [Página en NPM gitbook-start-heroku-token-oauth-alex-moi Plugin](https://www.npmjs.com/package/gitbook-start-heroku-token-oauth-alex-moi)
-*  [Página en NPM gitbook-start-heroku-localstrategy-alex-moi Plugin](https://www.npmjs.com/package/gitbook-start-heroku-localstrategy-alex-moi)
-*  [Página en NPM gitbook-start-github-alex-moi Plugin](https://www.npmjs.com/package/gitbook-start-github-alex-moi)
-*  [Página en NPM gitbook-start-https-alex-moi Plugin](https://www.npmjs.com/package/gitbook-start-https-alex-moi)
-*  [Repositorio GitHub](https://github.com/ULL-ESIT-SYTW-1617/crear-repositorio-en-github-alex-moi)
-*  [Descripción de la práctica](https://casianorodriguezleon.gitbooks.io/ull-esit-1617/content/practicas/practicagithubapi.html)
+*  [Página en NPM proyecto-sytw-alex-moi](https://www.npmjs.com/package/proyecto-sytw-alex-moi)
+*  [Repositorio GitHub](https://github.com/ULL-ESIT-SYTW-1617/proyecto-sytw-16-17-alex-moi.git)
+*  [Descripción de la práctica](https://casianorodriguezleon.gitbooks.io/ull-esit-1617/content/proyectos/sytw/)
 *  [Campus Virtual](https://campusvirtual.ull.es/1617/course/view.php?id=1175)
 
 ## Autores
