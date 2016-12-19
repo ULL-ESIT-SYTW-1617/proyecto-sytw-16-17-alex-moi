@@ -2,7 +2,8 @@ module.exports = function(app, passport) {
 
 var express  = require("express");
 var path          = require('path');
-    
+var fs		= require('fs');
+var pdf = require('pdfcrowd');
 /* Traemos los esquemas para trabajar con ellos */
 const User  = require('./models/user');
 
@@ -239,6 +240,41 @@ var usuario_global;
 		console.log("redirigiendo")
 		res.redirect('/admin');
 	});
+	
+	
+		app.get('/descargar', (req,res) =>{
+		var bool;
+		fs.existsSync(path.join(__dirname,'..','gh-pages','index.html')) ? bool=true : bool=false 
+		
+		if(bool){
+			var saveToFile = function(fname) {
+			    return {
+			        pdf: function(rstream) { 
+			            var wstream = fs.createWriteStream(fname);
+			            rstream.pipe(wstream);
+			        },
+			        error: function(errMessage, statusCode) { console.log("ERROR: " + errMessage); },
+			        end: function() { 
+			        	res.download(path.join(__dirname, '..','gitbook.pdf'), function(err){
+						if (err) {
+							console.log("ERROR: "+err)
+							res.redirect('/error')
+						} else {
+							res.render('home',{user: req.user});
+						}
+						});
+			        },
+			    };
+			}
+			
+			var client = new pdf.Pdfcrowd("alu0100782851", "4d6fa69e599df42d747d8ca9e0157457");
+			client.convertFile('./gh-pages/index.html', saveToFile('gitbook.pdf'));
+		}
+		else{
+			res.render('error',{error: 'No existe el fichero html'});	
+		}
+	})
+	
 };
 
 // route middleware to ensure user is logged in
