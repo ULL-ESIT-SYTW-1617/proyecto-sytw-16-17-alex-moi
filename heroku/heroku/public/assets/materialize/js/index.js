@@ -27,7 +27,7 @@ $( document ).ready(function() {
         
         visible.style.display = 'block';
         
-        $("#idcontenedor2").css("height", "600px");
+        $("#idcontenedor2").css("height", "auto");
         $("#idcontenedor2").css("margin-bottom", "150px");
         //contenedor2.style.height = '550 px';
     });

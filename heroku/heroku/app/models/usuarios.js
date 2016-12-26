@@ -22,6 +22,9 @@ module.exports = function(sequelize, DataTypes) {
             auth:{
                 type: DataTypes.INTEGER
             },
+            avatar:{
+                type: DataTypes.STRING
+            },
             admin: {
                 type: DataTypes.INTEGER
             },

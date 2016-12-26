@@ -14,8 +14,8 @@ anotaciones:
     admin = 1 -- Eres admin
 
 En la base de datos ya hay un usuario admin creado.
-    INSERT INTO USER ( name, username , edad , email, password, admin, auth, createdAt, updatedAt)
-    VALUES ( 'admin', 'root', 18, 'admin@gmail.com','admin',1,0, '0000-00-00 00:00:00.000 +00:00', '0000-00-00 00:00:00.000 +00:00');
+    INSERT INTO USER ( name, username , edad , email, password, admin, auth, createdAt, updatedAt, avatar)
+    VALUES ( 'admin', 'root', 18, 'admin@gmail.com','admin',1,0, '0000-00-00 00:00:00.000 +00:00', '0000-00-00 00:00:00.000 +00:00', './images/avatar.jpg');
 
     IMPORTANTEEE!! --> Recuerde cambiar la password admin por una propia dado que sino cualquier usuario que lea la documentacion de la aplicacion podra acceder a ella
     como admin y manipularla.

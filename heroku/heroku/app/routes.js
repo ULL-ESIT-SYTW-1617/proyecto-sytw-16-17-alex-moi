@@ -5,7 +5,7 @@ var path	= require('path');
 var bcrypt	= require("bcrypt-nodejs")
 var models	= require('./models/models.js');
 var fs		= require('fs');
-var pdf = require('pdfcrowd');
+var pdf 	= require('pdfcrowd');
 
 // normal routes ===============================================================
 
@@ -126,7 +126,8 @@ var pdf = require('pdfcrowd');
 				    password:	req.query.password,
 				    edad:		req.query.edad,
 				    auth:		0,
-				    admin:		0
+				    admin:		0,
+				    avatar:		"./images/avatar.jpg"
 				    
 				}).then((user)=> {
 					console.log(user)
@@ -219,7 +220,15 @@ var pdf = require('pdfcrowd');
 
 
 	app.get('/administrar', (req,res) =>{
-		res.render('administrador',{user: req.user});
+				
+		models.User.findAll({})
+		.then((users) =>
+		{
+			res.render('administrador.ejs',{
+				usuarios: users
+			});
+			
+	    });
 	})
 
 	app.get('/administrar/return', (req,res) =>{
@@ -273,7 +282,8 @@ var pdf = require('pdfcrowd');
 						    password:	req.query.password,
 						    edad:		req.query.edad,
 						    auth:		0,
-						    admin:		bol
+						    admin:		bol,
+				    		avatar:		"./images/avatar.jpg"
 						    
 						}).then((user)=> {
 							console.log(user);

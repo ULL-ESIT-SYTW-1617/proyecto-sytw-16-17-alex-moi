@@ -27,13 +27,14 @@
             </nav>
             
             <div class="contenedorhome col s12 m6 l6">
-                <h4> Hola 
-    			  	<% if (user) { %>
-    					<%= user.name %>
-    				<% } %>
-    				
-				</h4>
-				    
+                <% if (user) { %>
+                    <h4> Hola 
+        			       <%= user.name %>
+    				</h4>
+    				<img id="imagen" src="<%= user.avatar %>"></img>
+    			<% } %>
+
+				
                 <p>¿Qué quieres hacer?</p>
                 <p>Recuerda que puedes acceder al book, cambiar tu contraseña, o cerrar la sesión</p>
                 

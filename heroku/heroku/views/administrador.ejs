@@ -32,7 +32,22 @@
             <div class="contenedor2 col s12 m6 l6" id="idcontenedor2">
                 <h4> Administración de Usuarios</h4> 
                 <p>En este apartado podrá añadir o eliminar usuarios.Además podrá añadir a mas usuarios como administradores. Seleccione solo una de las opciones siguientes</p>
+                
                 <div class="row">
+                    <h5>Usuarios en la base de datos</h5>
+                    <div id="div1">
+                        <table class="bordered">
+                                <% for(var i=0; i<usuarios.length; i++) { %>
+                                <tr>
+                                    <td><%= usuarios[i].email %></td>
+                                    <td><a href="#!" class="secondary-content"><i class="material-icons">done</i></a></td>
+                                </tr>
+                                <% } %>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <h5>Administra los usuarios</h5>
                     <form class="col s12" action="/administrar/return" method="GET">
                         <div class="row">
                             <div class="input-field col s6">

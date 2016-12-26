@@ -8,7 +8,7 @@ module.exports = {
     'facebookAuth' : {
         'clientID'      : '738599156289979',
         'clientSecret'  : 'dc9450add8fce8194568503732d8a06f',
-        'callbackURL'   : 'https://proyecto-sytw-alex-moi.herokuapp.com/auth/facebook/callback'
+        'callbackURL'   : 'https://proyecto-sytw-alex-moi.herokuapp.com//auth/facebook/callback'
     }
 
 };
