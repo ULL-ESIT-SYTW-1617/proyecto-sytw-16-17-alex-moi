@@ -1,9 +1,6 @@
 var gulp  = require('gulp');
 var shell = require('gulp-shell');
-var git = require('gulp-git');
-
-
-var fs = require('fs');
+var child = require("child_process");
 var cwd = process.cwd();
 var paquete = require(cwd+'/package.json');
 
@@ -30,6 +27,16 @@ gulp.task('wikideploy', function() {
 
 
 //añadir tarea para arrancar o parar el servidor
+gulp.task("run-server", function () {
+    child.exec('node server.js', function(error, stdout, stderr){
+        if(error)
+          console.log(error)
+        
+        console.log(stderr);
+        console.log(stdout);
+    });
+});
+
 
 //añadir tareas de deploy en iaas
 gulp.task("deploy-iaas", function () {
@@ -40,6 +47,7 @@ gulp.task("deploy-iaas", function () {
     
     iaas.deploy_iaas(iaas_ip, iaas_path, url);
 });
+
 
 //añadir tarea para añadir ip y path del iaas al json
 
