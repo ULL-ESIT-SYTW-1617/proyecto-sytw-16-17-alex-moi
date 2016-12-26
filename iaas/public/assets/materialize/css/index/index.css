@@ -134,8 +134,9 @@ nav ul a { /*tamaño letras iniciar sesion*/
     margin-top: 10.5%;
     margin-left: auto;
     margin-right: auto;
+    
 
-    height: 650px;
+    height: auto;
     width: 700px;
     
     
@@ -218,6 +219,7 @@ p{
 
 /* css footer */
 footer.page-footer {
+
     font-family: 'Coda', cursive;
     margin-top: 0px;
     padding-top: 10px;
@@ -244,4 +246,11 @@ footer.page-footer p{
     footer.page-footer {
         text-align: center;
     }
+}
+
+
+#pasado{
+    height: 150px;
+    overflow-y: scroll;
+    overflow-x: hidden
 }

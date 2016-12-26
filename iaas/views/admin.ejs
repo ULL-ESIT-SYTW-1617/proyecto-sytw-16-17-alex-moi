@@ -29,41 +29,64 @@
             
             <div class="contenedor4 col s12 m6 l6">
                 <h3> Administración de usuarios</h3>
-				<h5>Usuarios en la base de datos</h5>
-			    <ul>
-			      <% for(var i=0; i<usuarios.length; i++) { %>
-			           <li>
-			               <p><%= usuarios[i].local.email%></p>
-			           </li>
-			   
-			      <% } %>
-			    </ul>
-			    
-			        <h5>Borrado de Usuarios</h5>
-			    
-			    
-                <form class="col s12" action="/borraruser" method="get">
-        
-                    <div class="row">
-                        <div class="input-field col s6">
-                            <i class="material-icons prefix">account_circle</i>
-                            <input class="form-control" id="email2" type="email" class="validate" name="email">
-                            <label for="email">Usuario para borrar</label>
-                        </div>
-                        
-                        <div class="col4">
-                            <input class="btn waves-effect waves-light #f44336 orange"  type="submit" name="action" value="Borrar">
-                            <i class="material-icons right"></i>
-                             </input>
-                        </div>
-                          
-                    </div>
-                    
-                </form>
+                <h5>Usuarios en la base de datos</h5>
                 <div class="row">
+                    <div class="col s12 m6 l6">
+                        
+        				
+        			    <ul id="pasado">
+        			      <% for(var i=0; i<usuarios.length; i++) { %>
+        			           <li>
+        			               <p><%= usuarios[i].local.email%></p>
+        			           </li>
+        			   
+        			      <% } %>
+			            </ul>
+                    </div>
+                    <div class="col s12 m6 l6">
+                        
+                            <div class="col s6">
+                                <p>
+                                    <input name="del" type="radio" id="test1" href="borraruser"/>
+                                    <label for="test1">Borrar Usuario</label>
+                                </p>
+                                <p>
+                                    <input name="ad" type="radio" id="test2" href="adduser" />
+                                    <label for="test2">Registrar Usuario</label>
+                                </p>
+                            </div>
+                    </div>
+                </div>
+                
+			    <div class="row" id="borraruser">
+			        <h5>Borrado de Usuarios</h5>
+                    <form class="col s12" action="/borraruser" method="get" >
+                    
+                        <div class="row">
+                            <div class="input-field col s6">
+                                <i class="material-icons prefix">account_circle</i>
+                                <input class="form-control" id="email2" type="email" class="validate" name="email">
+                                <label for="email">Usuario para borrar</label>
+                            </div>
+                        
+                            <div class="col4">
+                                <input class="btn waves-effect waves-light #f44336 orange"  type="submit" name="action" value="Borrar">
+                                <i class="material-icons right"></i>
+                                 </input>
+                            </div>
+                          
+                        </div>
+                    
+                    </form>
+			    </div>
+			     
+			    
+			    
+               
+                <div class="row" id="adduser">
                     <h5>Registro de Usuario</h5>
                     
-                     <form class="col s12 " action="/signup-admin" method="post" onsubmit="return validacion_signup()">
+                     <form class="col s12 "  action="/signup-admin" method="post" onsubmit="return validacion_signup()">
                                 <div class="row">
                                     <div class="input-field col s12 m4">
                                         <input class="form-control white-text" id="nombre1" type="text" class="validate" name="nombre">
@@ -143,5 +166,6 @@
         <script src="http://code.jquery.com/jquery.min.js"></script>
         <script type="text/javascript" scr="https://code.jquery.com/jquery-2.1.1.min.js"></script>
         <script type="text/javascript" src="assets/materialize/js/materialize.min.js"></script>
+        <script type="text/javascript" src="assets/materialize/js/index.js"></script>
     </body>
 </html>
