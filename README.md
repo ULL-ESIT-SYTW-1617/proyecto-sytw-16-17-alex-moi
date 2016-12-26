@@ -52,6 +52,9 @@ También es necesario tener generado en la máquina del iaas las claves para uti
 Para crear la estructura de directorios del Gitbook ejecutamos:
 ```shell
 proyecto-alex-moi -c nombre_directorio -u https://github.com/usuario/ejemplo.git --ip 10.6.128.1 --path /home/usuario (sin '/' al final de la ruta)
+
+Y luego ejecutamos:
+npm link proyecto-sytw-alex-moi
 ```
 Elija la **opcion 1**.
 Una vez instalado y ejecutado, en la carpeta que se ha creado hacemos:
@@ -92,6 +95,9 @@ Para esto último es importante que registre una cuenta con el siguiente email: 
 Para crear la estructura de directorios del Gitbook ejecutamos:
 ```shell
 proyecto-alex-moi -c nombre_directorio -u https://github.com/usuario/ejemplo.git
+
+Y luego ejecutamos:
+npm link proyecto-sytw-alex-moi
 ```
 Elija la **opcion 2**.
 
