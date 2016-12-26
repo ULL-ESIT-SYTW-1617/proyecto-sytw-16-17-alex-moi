@@ -53,7 +53,7 @@ Para crear la estructura de directorios del Gitbook ejecutamos:
 ```shell
 proyecto-alex-moi -c nombre_directorio -u https://github.com/usuario/ejemplo.git --ip 10.6.128.1 --path /home/usuario (sin '/' al final de la ruta)
 
-Y luego ejecutamos:
+Y luego ejecutamos desde nombre_directorio:
 npm link proyecto-sytw-alex-moi
 ```
 Elija la **opcion 1**.
@@ -96,7 +96,7 @@ Para crear la estructura de directorios del Gitbook ejecutamos:
 ```shell
 proyecto-alex-moi -c nombre_directorio -u https://github.com/usuario/ejemplo.git
 
-Y luego ejecutamos:
+Y luego ejecutamos desde nombre_directorio:
 npm link proyecto-sytw-alex-moi
 ```
 Elija la **opcion 2**.
