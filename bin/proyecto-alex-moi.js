@@ -111,27 +111,27 @@ function crear_estructura(dir, serv){
     } 
       
 
-      //Coger usuario y email de git
-      gitconfig(function(err,config){
-          if(err) console.log(err);
-          
-          author  = config.user.name  || argv.n;
-          email   = config.user.email || '';
+    //Coger usuario y email de git
+    gitconfig(function(err,config){
+        if(err) console.log(err);
+        
+        author  = config.user.name  || argv.n;
+        email   = config.user.email || '';
 
-          
-          //renderizando package.json
-          ejs.renderFile(path.join(__dirname,'..','template','package.ejs'),{ autor: author, autore: email, nombre: name, repourl: repo_url, ip_iaas_ull: ip_iaas , path_iaas_ull: path_iaas}, 
-            function(err,data){
-                if(err) {
-                    console.error(err);
-                }
-                if(data) {
-                    fs.writeFile(path.join(process.cwd(),dir,'package.json'), data);
-                }
-            });
-      });
-      
-      console.log("Estructura de directorios creada!");
+        
+        //renderizando package.json
+        ejs.renderFile(path.join(__dirname,'..','template','package.ejs'),{ autor: author, autore: email, nombre: name, repourl: repo_url, ip_iaas_ull: ip_iaas , path_iaas_ull: path_iaas}, 
+          function(err,data){
+              if(err) {
+                  console.error(err);
+              }
+              if(data) {
+                  fs.writeFile(path.join(process.cwd(),dir,'package.json'), data);
+              }
+          });
+    });
+    
+    console.log("Estructura de directorios creada!");
 }
 
 
@@ -235,10 +235,6 @@ else{
           else
             return console.log("El valor introducido es incorrecto pruebe a realizar la ejecucion de nuevo")
       });
-    
-    
-    
-    
   } 
   
 

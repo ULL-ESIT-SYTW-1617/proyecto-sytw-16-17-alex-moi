@@ -171,6 +171,8 @@ Y colocar la url de nuestra página por ejemplo, continuando con los ejemplos an
  - heroku:     https://nameapp.herokuapp.com
 
 
+## Depliegue
+* Heroku: [https://proyecto-sytw-alex-moi.herokuapp.com/](https://proyecto-sytw-alex-moi.herokuapp.com/) 
 
 ## Versión del paquete
 * Este paquete está actualizado. Utilice la última versión
