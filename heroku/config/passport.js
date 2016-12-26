@@ -77,7 +77,7 @@ module.exports = function(passport) {
             // check if the user is already logged in
             if (!req.user) {
                 console.log("entrooo")
-                
+                console.log(profile)
                 // Comprobar si el usuario ya existe!
                 Model.User.find({where: {
                     email: profile.emails[0].value
@@ -90,7 +90,7 @@ module.exports = function(passport) {
                                 name    : profile.displayName,
                                 email   : profile.emails[0].value, // pull the first email
                                 auth    :   1,
-                                avatar  :   profile._json['picture']
+                                avatar  :   profile._json.image.url
 				    	    })
                         }
 				    	return done(null, user);
@@ -105,7 +105,7 @@ module.exports = function(passport) {
             			    name    :   profile.displayName,
             			    admin   :   0,
             			    auth    :   1,
-            			    avatar  :   profile._json['picture']
+            			    avatar  :   profile._json.image.url
             			    
             			}).then((user)=> {
             				console.log("User new: "+user)
@@ -125,7 +125,7 @@ module.exports = function(passport) {
                     name  : profile.displayName,
                     email : profile.emails[0].value, // pull the first email
                     auth  : 1,
-                    avatar  :   profile._json['picture']
+                    avatar  :   profile._json.image.url
 	    	    })
                 return done(null, user);
             }
