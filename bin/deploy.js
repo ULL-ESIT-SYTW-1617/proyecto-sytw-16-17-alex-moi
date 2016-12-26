@@ -46,7 +46,7 @@ function deploy_heroku() {
           console.log(error)
         
         console.log(stderr);
-        console.log(stdout);
+        
     });
 }
 
