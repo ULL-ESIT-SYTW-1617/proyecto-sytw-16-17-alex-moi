@@ -210,35 +210,22 @@ var usuario_global;
 			
 	    	});
 	});
-/*	app.post('/borraruser',passport.authenticate('borrado', {
+	app.post('/borraruser',passport.authenticate('borrado', {
 		successRedirect : '/admin', // redirect to the secure profile section
 		failureRedirect : '/admin', // redirect back to the signup page if there is an error
 		failureFlash : true // allow flash messages
-	}));*/
+	}));
 	
 	app.get('/borraruser',function(req, res) {
-		var  aux;
+	
+		
 		var email = req.query.email;
-		User.findOne({'local.email': email}, function(err) {
+        User.findOne({'local.email': email}, function(err,user) {
+                user.remove(); 
+        });
+        console.log("redirigiendo")
+        res.redirect('/admin');
 
-                // if there are any errors, return the error
-                if (err)
-                    return err;
-                // check to see if there's already a user with that email
-                if (req.user) {
-                    var user            = req.user;
-                    user.local.email    = email;
-                    
-                    console.log("Esto es el email a borrar:  "+ user.local._id);
-                    
-                    User.remove({"_id":user.local._id}, { justOne: true } );
-                    
-                    console.log("Ya deberia haberse borrado");
-                    
-                }
-		});
-		console.log("redirigiendo")
-		res.redirect('/admin');
 	});
 	
 	
